@@ -1,4 +1,7 @@
-title: Dlang Tour
+title: D语言教程
 start: welcome/welcome-to-d
 repo: dlang-tour/chinese
 ordering:
+- welcome
+- basics
+- gems
