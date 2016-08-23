@@ -2,3 +2,4 @@ title: Dlang Tour
 start: welcome/welcome-to-d
 repo: dlang-tour/chinese
 ordering:
+- welcome
