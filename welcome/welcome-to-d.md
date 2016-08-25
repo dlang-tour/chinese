@@ -9,7 +9,7 @@ language which compiles directly to __efficient__, __native__ machine code.
 
 {{/dmanmobile}}
 
-### What is D?
+### D语言是什么?
 
 D is the culmination of _decades of experience implementing compilers_
 for many diverse languages and has a large number of
@@ -34,13 +34,13 @@ for many diverse languages and has a large number of
 
 {{/dmandesktop}}
 
-### About the tour
+### 关于此教程
 
 Each section comes with a source code example that can be modified and used
 to experiment with D's language features.
 Click the run button (or `Ctrl-enter`) to compile and run it.
 
-### Contributing
+### 贡献
 
 This tour is [open source](https://github.com/stonemaster/dlang-tour)
 and we are glad about pull requests making this tour even better.
