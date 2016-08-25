@@ -42,8 +42,8 @@ Click the run button (or `Ctrl-enter`) to compile and run it.
 
 ### 贡献
 
-This tour is [open source](https://github.com/stonemaster/dlang-tour)
-and we are glad about pull requests making this tour even better.
+此教程是 [开源的](https://github.com/stonemaster/dlang-tour)；
+为了使本教程变得更好，很高兴大家发起拉送请求。
 
 ## {SourceCode}
 
