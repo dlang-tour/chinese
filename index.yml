@@ -1,5 +1,9 @@
 title: Dlang Tour
 start: welcome/welcome-to-d
-repo: dlang-tour/chinese
+repo: dlang-tour/english
 ordering:
 - welcome
+- basics
+- gems
+- multithreading
+- vibed
