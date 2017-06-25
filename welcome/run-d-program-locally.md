@@ -21,7 +21,7 @@ D 附带了一个编译器 `dmd`，一个脚本化的运行工具 `rdmd` 以及�
 
 想要了解更多 `rdmd` 命令的可用选项，请浏览 [在线文档](https://dlang.org/rdmd.html) 或者在命令行中运行 `rdmd --help` 。
 
-### 包管理器 `dub`
+### `dub` 包管理器
 
 D 的标准包管理器是 [`dub`](http://code.dlang.org)。在 `dub` 在本地安装后，我们能通过以下的命令来创建一个新项目：
 
