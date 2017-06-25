@@ -1,24 +1,18 @@
-# Mutability
+# 可变性
 
-D is a statically typed language: once a variable has been declared,
-its type can't be changed from that point onwards. This allows
-the compiler to prevent bugs early and enforce restrictions
-at compile time. Good type-safety provides the support one needs
-to make large programs safer and more maintainable.
+D 是静态类型的语言：变量在声明之后，类型就不能再发生变化。这样能让编译器尽早发现错误，并且在编译时强制进行限制。良好的类型安全性使得大型项目更容易维护。
 
-There are several type qualifiers in D but the most commonly used ones are
-`const` and `immutable`.
+D 中拥有很多类型修饰符，但是最常用的还是 `const` 和 `immutable`。
 
 ### `immutable`
 
-In addition to a static type system, D provides type qualifiers (sometimes also
-called "type constructors") that enforce additional constraints on certain
-objects. For example an `immutable` object can only be initialized once and
-after that isn't allowed to change.
+除了静态的类型系统，D 还提供了类型修饰符（有时也成为“类型构造函数”），它们允许对某些变量附加约束。例如，`immutable` 的变量只能够被初始化一次，之后不允许再修改：
 
+```d
     immutable int err = 5;
-    // or: immutable err = 5 and int is inferred.
-    err = 5; // won't compile
+    // 或者： immutable err = 5 ，err 的类型 int 会被自动推断出来
+    err = 5; // 编译错误
+```
 
 `immutable` objects can thus be safely shared among different threads with no
 synchronization because they never change by definition. This also implies that
