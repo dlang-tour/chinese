@@ -1,8 +1,8 @@
-# Control flow
+# 控制流
 
-An application's flow can be controlled conditionally with `if` and `else`
-statements:
+程序可以通过 `if` `else` 语句来根据条件控制程序流程：
 
+```d
     if (a == 5) {
         writeln("Condition is met");
     } else if (a > 10) {
@@ -10,39 +10,32 @@ statements:
     } else {
         writeln("Nothing is met!");
     }
+```
 
-When an `if` or `else` block only contains one statement,
-the braces can be omitted.
+当 `if` 或者 `else` 子句后的代码块只包含一条语句时，可以省略括号。
 
-D provides the same operators as C/C++ and Java to test
-variables for equality or compare them:
+D 提供了与 C/C++ 以及 Java 相同的操作符来比较对象：
 
-* `==` and `!=` for testing equality and inequality
-* `<`, `<=`, `>` and `>=` for testing less than (or equal to) and greater than (or equal to)
+* `==` 和 `!=` 操作符判断对象是否相等或不相等
+* `<`, `<=`, `>` 以及 `>=` 操作符判断一个对象是否小于（或等于），大于（或等于）另一个对象
 
-For combining multiple conditions, the `||` operator represents
-the logical *OR*, and `&&` the logical *AND*.
+对于组合条件，`||` 代表逻辑 *或*，`&&` 代表逻辑与。
 
-D also defines a `switch`..`case` statement which executes one case
-depending on the value of *one* variable. `switch`
-works with all basic types as well as strings!
-It's even possible to define ranges for integral types
-using the `case START: .. case END:` syntax. Make sure to
-take a look at the source code example.
+D 还定义了一个 `switch`..`case` 语句，它根据一个变量的值来执行不同的情况分支。`switch` 语句适用于所有的基本类型和字符串！并且还有一个专门的 `case START: .. case END:` 语法来匹配一个整数类型的范围。请参见下面的源代码示例。
 
-### In-depth
+### 深入
 
-#### Basic references
+#### 基本参考
 
-- [Logical expressions in _Programming in D_](http://ddili.org/ders/d.en/logical_expressions.html)
-- [If statement in _Programming in D_](http://ddili.org/ders/d.en/if.html)
-- [Ternary expressions in _Programming in D_](http://ddili.org/ders/d.en/ternary.html)
-- [`switch` and `case` in _Programming in D_](http://ddili.org/ders/d.en/switch_case.html)
+- [_D程序设计中的_ 逻辑表达式](http://ddili.org/ders/d.en/logical_expressions.html)
+- [_D程序设计中的_ `if` 语句](http://ddili.org/ders/d.en/if.html)
+- [_D程序设计中的_ 三元表达式](http://ddili.org/ders/d.en/ternary.html)
+- [_D程序设计中的_ `switch` 和 `case` 语句](http://ddili.org/ders/d.en/switch_case.html)
 
-#### Advanced references
+#### 进阶参考
 
-- [Expressions in detail](https://dlang.org/spec/expression.html)
-- [If Statement specification](https://dlang.org/spec/statement.html#if-statement)
+- [详解表达式](https://dlang.org/spec/expression.html)
+- [If 表达式规范](https://dlang.org/spec/statement.html#if-statement)
 
 ## {SourceCode}
 
@@ -58,11 +51,11 @@ void main()
     switch(c) {
         case 0: .. case 9:
             writeln(c, " is within 0-9");
-            break; // necessary!
+            break; // 必要的！
         case 10:
             writeln("A Ten!");
             break;
-        default: // if nothing else matches
+        default: // 如果没有任何情况匹配，则执行该语句。
             writeln("Nothing");
             break;
     }

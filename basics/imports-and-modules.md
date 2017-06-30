@@ -1,24 +1,17 @@
-# Imports and modules
+# 导入与模块
 
-For a simple hello world program in D, `import`s are needed.
-The `import` statement makes all public functions
-and types from the given **module** available.
+即使是一个简单的 HelloWorld 程序，我们也需要用到使用 `import` 语句。
+`import` 语句使得给定**模块**中的所有公共方法以及类型可见。
 
-The standard library, called [Phobos](https://dlang.org/phobos/),
-is located under the **package** `std`
-and its modules are referenced through `import std.MODULE`.
+D 叫做 [Phobos](https://dlang.org/phobos/)的标准库中位于 `std` **包** 下，可以使用 `import std.模块名` 的语法来引用其中的模块。
 
-The `import` statement can also be used to selectively
-import certain symbols of a module:
-
+`import` 语句也能够选择性的导入模块内的部分符号：
+```d
     import std.stdio : writeln, writefln;
+```
+选择性导入可以提高代码的可读性，使得符号的来源更加明显，也能够防止来自不同模块的同名符号发生冲突。
 
-Selective imports can be used to improve readability by making
-it obvious where a symbol comes from, and also as a way to
-prevent clashing of symbols with the same name from different modules.
-
-An `import` statement does not need to appear at the top of a source file.
-It can also be used locally within functions or any other scope.
+`import` 语句不一定要出现在源文件的顶部，它可以在方法内或者是任何作用域内使用。
 
 ## {SourceCode}
 
@@ -26,7 +19,7 @@ It can also be used locally within functions or any other scope.
 void main()
 {
     import std.stdio;
-    // or import std.stdio : writeln;
+    //或者 import std.stdio : writeln;
     writeln("Hello World!");
 }
 ```

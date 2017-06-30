@@ -1,6 +1,6 @@
-# Read in your language
+# 选择您的语言
 
-The Dlang Tour is available in multiple languages:
+本教程有多种语言版本：
 
 - [Brazilian Portuguese - Português Brasileiro](https://tour.dlang.org/tour/pt/welcome/welcome-to-d) (partially, WIP)
 - [French - Français](https://tour.dlang.org/tour/fr/welcome/welcome-to-d)
@@ -13,10 +13,9 @@ The Dlang Tour is available in multiple languages:
 - [Turkish - Türkçe](https://tour.dlang.org/tour/tr/welcome/welcome-to-d) (partially, WIP)
 - [Ukrainian - Українська](https://tour.dlang.org/tour/uk/welcome/welcome-to-d)
 
-For English, just click on "Next" or use the right arrow key.
+对于英语，您只需要点击“下一步”或者使用“向右”键。
 
-## Your language isn't listed here?
+## 您的语言没有在这里列出？
 
-You can find in-work [translations here](https://github.com/dlang-tour),
-or ping us on [GitHub](https://github.com/dlang-tour/core/issues/new) to start
-a new translation repository.
+您可以在这里找到正在进行中的翻译 [translations here](https://github.com/dlang-tour),
+或者通知我们 [GitHub](https://github.com/dlang-tour/core/issues/new) 来开启一个新的翻译仓库。
