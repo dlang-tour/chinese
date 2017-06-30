@@ -10,38 +10,35 @@
 
 ### What is D?
 
-D is the culmination of _decades of experience implementing compilers_
-for many diverse languages and has a unique set of features:
+D 语言是现代编译器的集大成者，它还拥有着下面这些特性：
 
 {{#dmandesktop}}
 
 - _high level_ constructs for great modeling power
-- _high performance_, compiled language
-- static typing
-- direct interface to the operating system API's and hardware
-- blazingly fast compile-times
-- memory-safe subset (SafeD)
-- _maintainable_, _easy to understand_ code
-- gradual learning curve (C-like syntax, similar to Java and others)
-- compatible with C application binary interface
-- limited compatibility with C++ application binary interface
-- multi-paradigm (imperative, structured, object oriented, generic, functional programming purity, and even assembly)
-- built-in error detection (contracts, unittests)
+- _高性能_，编译型语言
+- 静态类型
+- 提供系统 API 以及对于硬件的直接接口
+- 快速编译
+- 内存安全的子集（Safe D）
+- _可维护的_，_易于理解的_ 代码
+- 平缓的学习曲线（类似 C，Java 等的语法）
+- 兼容 C 的二进制接口
+- 有限制的兼容 C++ 的二进制接口
+- 多范式（命令式，结构化，面向对象，通用，纯函数式，and even assmble）
+- 内置的错误检测支持（契约，单元测试）
 
-... and many more [features](http://dlang.org/overview.html).
+... 还有更多 [特性](http://dlang.org/overview.html).
 
 {{/dmandesktop}}
 
-### About the tour
+### 关于本教程
 
-Each section comes with a source code example that can be modified and used
-to experiment with D's language features.
-Click the run button (or `Ctrl-enter`) to compile and run it.
+本教程的每一部分都附带了一个源代码实力，可以通过修改这些例子来实验 D 的语言特性。单击 _run_ 按钮（或者使用 `Ctrl-enter` 快捷键）来编译运行它。
 
-### Contributing
+### 协作
 
-This tour is [open source](https://github.com/dlang-tour)
-and we welcome pull requests making this tour even better.
+本教程是 [开源](https://github.com/dlang-tour) 的
+我们欢迎通过 _pull requests_ 的方式来完善本教程。
 
 ## {SourceCode}
 
@@ -52,19 +49,18 @@ import std.range;
 
 void main()
 {
-    // Let's get going!
+    // 让我们开始吧！
     writeln("Hello World!");
     
-    // An example for experienced programmers:
-    // Take three arrays, and without allocating
-    // any new memory, sort across all the
-    // arrays inplace
+    // 一个给有经验的程序员的例子：
+    // 在不进行动态内存分配的情况下，创建了三个数组，
+    // 并对他们进行排序。
     int[] arr1 = [4, 9, 7];
     int[] arr2 = [5, 2, 1, 10];
     int[] arr3 = [6, 8, 3];
     sort(chain(arr1, arr2, arr3));
     writefln("%s\n%s\n%s\n", arr1, arr2, arr3);
-    // To learn more about this example, see the
-    // "Range algorithms" page under "Gems"
+    // 想要进一步了解本例，请参见
+    // “Gems” 章的 “Range algorithms” 小节
 }
 ```
