@@ -1,11 +1,10 @@
 # 欢迎
 
-Welcome to the interactive tour of the *D Programming language*.
+欢迎来到与 *D 程序设计语言* 的互动之旅。
 
 {{#dmanmobile}}
 
-The tour gives an overview of this __powerful__ and __expressive__
-language which compiles directly to __efficient__, __native__ machine code.
+本教程将带你走近这个 __强大__ ，富有 __表现力__ 的，能够编译为 __高效__ 的 __本地代码__ 的程序设计语言。
 
 {{/dmanmobile}}
 
