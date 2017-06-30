@@ -1,70 +1,91 @@
-# 基本类型
+# Basic types
 
-D 提供了很多基本类型，基本类型的大小**与平台无关**。唯一的例外是 `real` 类型表示平台提供的最高精度的浮点数类型。无论是使用 32 位的系统还是 64 位的系统编译，整数类型的大小总是不变的。
+D provides a number of basic types which always have the same
+size **regardless** of the platform - the only exception
+is the `real` type which provides the highest possible floating point
+precision. There is no difference
+between the size of an integer regardless of whether the application
+is compiled for 32-bit or 64-bit systems.
 
-| 类型                           | 大小
+| type                          | size
 |-------------------------------|------------
-|`bool`                         | 8 位
-|`byte`, `ubyte`, `char`        | 8 位
-|`short`, `ushort`, `wchar`     | 16 位
-|`int`, `uint`, `dchar`         | 32 位
-|`long`, `ulong`                | 64 位
+|`bool`                         | 8-bit
+|`byte`, `ubyte`, `char`        | 8-bit
+|`short`, `ushort`, `wchar`     | 16-bit
+|`int`, `uint`, `dchar`         | 32-bit
+|`long`, `ulong`                | 64-bit
 
-#### 浮点类型:
+#### Floating point types:
 
-| 类型     | 大小
+| type    | size
 |---------|--------------------------------------------------
-|`float`  | 32 位
-|`double` | 64 位
-|`real`   | >= 64 位 (一般为 64 位, 但是在 Intel x86 32-bit 平台上时为 80 位)
+|`float`  | 32-bit
+|`double` | 64-bit
+|`real`   | >= 64-bit (generally 64-bit, but 80-bit on Intel x86 32-bit)
 
-前缀 `u` 代表 *无符号* 类型. `char` 类型会转换为
-UTF-8 码元, `wchar` 类型用于 UTF-16 字符串，而 `dchar` 用于 UTF-32 字符串.
+The prefix `u` denotes *unsigned* types. `char` translates to
+UTF-8 characters, `wchar` is used in UTF-16 strings and `dchar`
+in UTF-32 strings.
 
-不同类型的变量之间只有在不会丢失精度时才会发生隐式转换。但是编译器允许浮点类型之间发生隐式转换（例如从 `double` 到 `float` 的隐式转换）。
+A conversion between variables of different types is only
+allowed by the compiler if no precision is lost. However,
+a conversion between floating point types
+(e.g `double` to `float`) is allowed.
 
-可以使用 `cast(类型)变量` 表达式来强制转换变量的类型。强制转换需要小心使用，因为它可能会打破类型系统。
+A conversion to another type may be forced by using the
+`cast(TYPE) myVar` expression. It needs to be used with great care though,
+as the `cast` expression is allowed to break the type system.
 
-可以使用特殊关键字 `auto` 来创建一个变量，变量的类型会被推断为右侧的初始化表达式的类型。例如，`auto myVar = 7`中，`myVar` 的类型会被推断为 `int`。请注意，使用 `auto` 声明变量显式写出变量类型进行声明是一样的，变量的类型在编译时被确定的，而不能够被更改。
+The special keyword `auto` creates a variable and infers its
+type from the right hand side of the expression. `auto myVar = 7`
+will deduce the type `int` for `myVar`. Note that the type is still
+set at compile-time and can't be changed - just like with any other
+variable with an explicitly given type.
 
-### 类型属性
+### Type properties
 
-所有的数据类型都具有表示该类型初始值的 `.init` 属性，所有整数类型的 `.init` 属性的值都为 `0`，而浮点数为 `nan` (*not a number*).
+All data types have a property `.init` to which they are initialized.
+For all integers this is `0` and for floating points it is `nan` (*not a number*).
 
-整数以及浮点数类型具有表示该类型最大值的 `.max` 属性。
-整数类型也具有表示该类型最小值的 `.min` 属性，而浮点数类型都具有被定义为该类型非0的最小可表示的常规值的 `.min_normal` 属性。
+Integral and floating point types have a `.max` property for the highest value
+they can represent. Integral types also have a `.min` property for the lowest value
+they can represent, whereas floating point types have a `.min_normal` property
+which is defined to the smallest representable normalized value that's not 0.
 
-浮点数类型还具有属性 `.nan` （NaN 值），`.infinity`
-（无穷大值），`.dig`（小数精度位数），`.mant_dig`
-(尾数的位数) 以及其他属性。
+Floating point types also have properties `.nan` (NaN-value), `.infinity`
+(infinity value), `.dig` (number of decimal digits of precisions), `.mant_dig`
+(number of bits in mantissa) and more.
 
-每个类型也都具有一个用来表示类型名称的字符串属性 `.stringof`。
+Every type also has a `.stringof` property which yields its name as a string.
 
-### D 中的索引
+### Indexes in D
 
-在 D 中，索引的类型通常为别名类型 `size_t`，因为这个类型足够大，可以用来表示所有可寻址内存的偏移量 - 在 32 位架构中它为 `uint`，在 64 为架构中它为 `ulong`。
+In D, indexes usually have the alias type `size_t`, as it is a type that
+is large enough to represent an offset into all addressable memory - this is
+`uint` for 32-bit and `ulong` for 64-bit architectures.
 
-### 断言
+### Assert expression
 
-`assert` 是在调试模式下验证条件，并在失败时抛出 `AssertionError` 错误终止程序的表达式。
-`assert(0)` 用来标记不可达的代码。
+`assert` is an expression which verifies conditions in debug mode and aborts
+with an `AssertionError` if it fails.
+`assert(0)` is thus used to mark unreachable code.
 
-### 深入
+### In-depth
 
-#### 基本参考
+#### Basic references
 
-- [赋值](http://ddili.org/ders/d.en/assignment.html)
-- [变量](http://ddili.org/ders/d.en/variables.html)
-- [运算](http://ddili.org/ders/d.en/arithmetic.html)
-- [浮点数](http://ddili.org/ders/d.en/floating_point.html)
-- [_D编程中的_ 基本类型](http://ddili.org/ders/d.en/types.html)
+- [Assignment](http://ddili.org/ders/d.en/assignment.html)
+- [Variables](http://ddili.org/ders/d.en/variables.html)
+- [Arithmetics](http://ddili.org/ders/d.en/arithmetic.html)
+- [Floating Point](http://ddili.org/ders/d.en/floating_point.html)
+- [Fundamental types in _Programming in D_](http://ddili.org/ders/d.en/types.html)
 
 #### Advanced references
 
-- [D 中所有基本类型的概述](https://dlang.org/spec/type.html)
-- [_D程序设计中的_ `auto` 和 `typeof`](http://ddili.org/ders/d.en/auto_and_typeof.html)
-- [类型属性](https://dlang.org/spec/property.html)
-- [断言表达式](https://dlang.org/spec/expression.html#AssertExpression)
+- [Overview of all basic data types in D](https://dlang.org/spec/type.html)
+- [`auto` and `typeof` in _Programming in D_](http://ddili.org/ders/d.en/auto_and_typeof.html)
+- [Type properties](https://dlang.org/spec/property.html)
+- [Assert expression](https://dlang.org/spec/expression.html#AssertExpression)
 
 ## {SourceCode}
 
@@ -73,7 +94,9 @@ import std.stdio : writeln;
 
 void main()
 {
-    // 大数字字面值可以用"_"分开以提高可读性。
+    // Big numbers can be separated
+    // with an underscore "_"
+    // to enhance readability.
     int b = 7_000_000;
     short c = cast(short) b; // cast needed
     uint d = b; // fine
@@ -82,13 +105,15 @@ void main()
 
     auto f = 3.1415f; // f denotes a float
 
-    // typeid(VAR) 返回一个表达式的类型信息。
+    // typeid(VAR) returns the type information
+    // of an expression.
     writeln("type of f is ", typeid(f));
     double pi = f; // fine
-    // 浮点数允许窄化隐式类型转换。
+    // for floating-point types
+    // implicit down-casting is allowed
     float demoted = pi;
 
-    // 访问类型属性
+    // access to type properties
     assert(int.init == 0);
     assert(int.sizeof == 4);
     assert(bool.max == 1);

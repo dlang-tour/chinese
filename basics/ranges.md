@@ -1,4 +1,4 @@
-# Ranges: 范围
+# Ranges
 
 If a `foreach` is encountered by the compiler
 
