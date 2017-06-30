@@ -2,7 +2,7 @@
 
 ### 函数作为参数
 
-在D中，函数也可以作为一个函数参数的：
+在D中，函数也可以作为一个函数的参数：
 
     void doSomething(int function(int, int) doer) {
         // 调用参数传过来的函数
