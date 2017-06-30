@@ -19,15 +19,9 @@ D 提供了与 C/C++ 以及 Java 相同的操作符来比较对象：
 * `==` 和 `!=` 操作符判断对象是否相等或不相等
 * `<`, `<=`, `>` 以及 `>=` 操作符判断一个对象是否小于（或等于），大于（或等于）另一个对象
 
-For combining multiple conditions, the `||` operator represents
-the logical *OR*, and `&&` the logical *AND*.
+对于组合条件，`||` 代表逻辑 *或*，`&&` 代表逻辑与。
 
-D also defines a `switch`..`case` statement which executes one case
-depending on the value of *one* variable. `switch`
-works with all basic types as well as strings!
-It's even possible to define ranges for integral types
-using the `case START: .. case END:` syntax. Make sure to
-take a look at the source code example.
+D 还定义了一个 `switch`..`case` 语句，它根据一个变量的值来执行不同的情况分支。`switch` 语句适用于所有的基本类型和字符串！并且还有一个专门的 `case START: .. case END:` 语法来匹配一个整数类型的范围。请参见下面的源代码示例。
 
 ### 深入
 
@@ -36,7 +30,7 @@ take a look at the source code example.
 - [_D程序设计中的_ 逻辑表达式](http://ddili.org/ders/d.en/logical_expressions.html)
 - [_D程序设计中的_ `if` 语句](http://ddili.org/ders/d.en/if.html)
 - [_D程序设计中的_ 三元表达式](http://ddili.org/ders/d.en/ternary.html)
-- [_D程序设计中的_ `switch` 和 `case`](http://ddili.org/ders/d.en/switch_case.html)
+- [_D程序设计中的_ `switch` 和 `case` 语句](http://ddili.org/ders/d.en/switch_case.html)
 
 #### 进阶参考
 
@@ -57,11 +51,11 @@ void main()
     switch(c) {
         case 0: .. case 9:
             writeln(c, " is within 0-9");
-            break; // necessary!
+            break; // 必要的！
         case 10:
             writeln("A Ten!");
             break;
-        default: // if nothing else matches
+        default: // 如果没有任何情况匹配，则执行该语句。
             writeln("Nothing");
             break;
     }
