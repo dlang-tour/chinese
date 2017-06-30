@@ -1,4 +1,4 @@
-# Welcome to D
+# 欢迎
 
 Welcome to the interactive tour of the *D Programming language*.
 
