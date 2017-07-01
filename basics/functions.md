@@ -1,67 +1,65 @@
-# Functions
+# 函数
 
-One function has already been introduced: `main()` - the starting point of every
-D program. A function may return a value (or be declared with
-`void` if nothing is returned) and accept an arbitrary number of arguments:
+我们已经介绍了过了一个函数函数：`main()`，它是每一个 D 程序的入口。
+每个函数都可以返回一个值（如果函数不需要返回值，那么可以将它的返回值类型声明为 `void`）。
 
+```d
     int add(int lhs, int rhs) {
         return lhs + rhs;
     }
+```
 
-### `auto` return types
+### `auto` 返回值类型
 
-If the return type is defined as `auto`, the D compiler infers the return
-type automatically. Hence multiple `return` statements must return values with
-compatible types.
+如果函数的返回值类型被定义为 `auto`，那么 D 编译器会自动推断函数的返回值类型。 因此，在 `auto` 返回值类型的函数里，如果包含了多条 `return` 语句，那么它们返回的值必须有着兼容的类型。
 
-    auto add(int lhs, int rhs) { // returns `int`
+```d
+    auto add(int lhs, int rhs) { // 返回值类型为 int
         return lhs + rhs;
     }
 
-    auto lessOrEqual(int lhs, int rhs) { // returns `double`
+    auto lessOrEqual(int lhs, int rhs) { // 返回值类型为 `double`
         if (lhs <= rhs)
             return 0;
         else
             return 1.0;
     }
+```
 
-### Default arguments
+### 默认参数
 
-Functions may optionally define default arguments.
-This avoids the tedious work of declaring redundant
-overloads.
+函数支持可选的为参数提供默认值，这避免了冗长的重载。
 
+```d
     void plot(string msg, string color = "red") {
-        ...
+        //...
     }
     plot("D rocks");
     plot("D rocks", "blue");
+```
 
-Once a default argument has been specified, all following arguments
-must be default arguments too.
+如果指定了一个参数的默认值，那么他后面的所有参数都必须拥有默认值。
 
-### Local functions
+### 局部函数
 
-Functions may even be declared inside other functions, where they may be
-used locally and aren't visible to the outside world.
-These functions can even have access to objects that are local to
-the parent's scope:
+函数甚至能够定义在其他函数内部，它们可以在局部被使用，并且对于外部是不可见的。这样的局部函数甚至能够访问局部变量：
 
+```d
     void fun() {
         int local = 10;
         int fun_secret() {
-            local++; // that's legal
+            local++; // 合法
         }
-        ...
+        // ...
+```
 
-Such nested functions are called delegates, and they will be explained in more depth
-[soon](basics/delegates).
+这样的嵌套函数被称为 *委托*，在[这里](basics/delegates)我们会有详细的讲解。
 
 ### In-depth
 
-- [Functions in _Programming in D_](http://ddili.org/ders/d.en/functions.html)
-- [Function parameters in _Programming in D_](http://ddili.org/ders/d.en/function_parameters.html)
-- [Function specification](https://dlang.org/spec/function.html)
+- [_D 程序设计中的_ 函数](http://ddili.org/ders/d.en/functions.html)
+- [_D 程序设计中的_ 函数参数](http://ddili.org/ders/d.en/function_parameters.html)
+- [D 函数规范](https://dlang.org/spec/function.html)
 
 ## {SourceCode}
 
@@ -71,8 +69,7 @@ import std.random : uniform;
 
 void randomCalculator()
 {
-    // Define 4 local functions for
-    // 4 different mathematical operations
+    // 为 4 个不同的数学运算定义了 4 个局部函数
     auto add(int lhs, int rhs) {
         return lhs + rhs;
     }
@@ -89,10 +86,8 @@ void randomCalculator()
     int a = 10;
     int b = 5;
 
-    // uniform generates a number between START
-    // and END, whereas END is NOT inclusive.
-    // Depending on the result we call one of
-    // the math operations.
+    // uniform 生成了在一个半开半闭区间 [start, end) 内的随机数，
+    // 根据不同的结果采用不同的数学运算
     switch (uniform(0, 4)) {
         case 0:
             writeln(add(a, b));
@@ -107,8 +102,7 @@ void randomCalculator()
             writeln(div(a, b));
             break;
         default:
-            // special code which marks
-            // UNREACHABLE code
+            // 用来标记不可能执行到的代码的特殊标记
             assert(0);
     }
 }
@@ -116,8 +110,8 @@ void randomCalculator()
 void main()
 {
     randomCalculator();
-    // add(), sub(), mul() and div()
-    // are NOT visible outside of their scope
+    // add(), sub(), mul() 和 div()
+    // 在 randomCalculator() 之外不可访问
     static assert(!__traits(compiles,
                             add(1, 2)));
 }

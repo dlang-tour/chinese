@@ -1,4 +1,4 @@
-title: Multithreading
+title: 多线程
 ordering:
 - thread-local-storage
 - message-passing
