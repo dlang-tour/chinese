@@ -34,7 +34,7 @@
 使用切片，可以为仅在一个内存块上操作的东西（例如解析器）编写非常高效的代码,并且只切割他们真正需要处理的部分,这样就不需要分配新的内存了.
 
 像上一节[previous section](basics/arrays)说的,  `[$]` 表达式是`arr.length`的缩写形式.
-因此 `arr[$]` 将索引至切片结束 ,并会生成`RangeError`（如果bounds-checking尚未被禁用.
+因此 `arr[$]` 将索引至切片结束 ,并会生成`RangeError`（如果bounds-checking未被禁用).
 
 ### 更深入的参考
 
