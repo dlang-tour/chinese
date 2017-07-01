@@ -86,9 +86,8 @@ void randomCalculator()
     int a = 10;
     int b = 5;
 
-    // uniform 生成了一个半开半闭区间 [start, end)
-    // Depending on the result we call one of
-    // the math operations.
+    // uniform 生成了在一个半开半闭区间 [start, end) 内的随机数，
+    // 根据不同的结果采用不同的数学运算
     switch (uniform(0, 4)) {
         case 0:
             writeln(add(a, b));
@@ -103,8 +102,7 @@ void randomCalculator()
             writeln(div(a, b));
             break;
         default:
-            // special code which marks
-            // UNREACHABLE code
+            // 用来标记不可能执行到的代码的特殊标记
             assert(0);
     }
 }
@@ -112,8 +110,8 @@ void randomCalculator()
 void main()
 {
     randomCalculator();
-    // add(), sub(), mul() and div()
-    // are NOT visible outside of their scope
+    // add(), sub(), mul() 和 div()
+    // 在 randomCalculator() 之外不可访问
     static assert(!__traits(compiles,
                             add(1, 2)));
 }

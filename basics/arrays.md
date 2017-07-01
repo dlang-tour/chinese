@@ -1,47 +1,36 @@
 # Arrays
 
-There are two types of Arrays in D: **static** and **dynamic**.
-Access to arrays of any kind is bounds-checked (except when the compiler can prove
-that bounds checks aren't necessary).
-A failed bounds check yields a `RangeError` which aborts the application.
-The brave can disable this safety feature with the
-compiler flag `-boundschecks=off`
-in order to gain speed improvements at the cost of safety.
+D 语言有两种数组：**静态** 和 **动态** 的数组。
+访问任何类型数组的元素都需要经过边界检查（除非编译器能够证明边界检查不是必须的）。
+边界检查失败时会抛出一个 `RangeError` 来中断程序。
+可以通过 `-boundschecks=off` 编译选项来禁用这类检查，以提升程序的效率。
 
-#### Static arrays
+#### 静态数组
 
-Static arrays are stored on the stack if defined inside a function,
-or in static memory otherwise. They have a fixed,
-compile-time known length. A static array's type includes
-the fixed size:
+如果静态数组在函数内声明，那么它就会被分配在堆栈中，否则他会被分配到静态内存里。静态数组的类型包括在它的类型里，它具有着固定的、编译时已知的长度：
 
+```d
     int[8] arr;
+```
 
-`arr`'s type is `int[8]`. Note that the size of the array is denoted
-next to the type, and not after the variable name like in C/C++.
+`arr` 的类型为 `int[8]`。注意这里与 C/C++不同，数组的大小紧在元素类型的名称后，而非在变量名称后。
 
-#### Dynamic arrays
+#### 动态数组
 
-Dynamic arrays are stored on the heap and can be expanded
-or shrunk at runtime. A dynamic array is created using a `new` expression
-and its length:
+动态数组存储在堆上，它可以在运行时拓展或者缩小。通过 `new` 表达式能够创建一个给定大小的动态数组：
 
-    int size = 8; // run-time variable
+```d
+    int size = 8; // 运行时变量
     int[] arr = new int[size];
+```
 
-The type of `arr` is `int[]`, which is a **slice**. Slices
-will be explained in more detail in the [next section](basics/slices). Multi-dimensional
-arrays can be created easily using the `auto arr = new int[3][3]` syntax.
+`arr` 的类型为 `int[]`，这是一个 **切片**。[下一节](basics/slices)将会对切片进行更详细的讲解。
 
-#### Array operations and properties
+#### 数组的属性与操作
 
-Arrays can be concatenated using the `~` operator, which
-will create a new dynamic array.
-
-Mathematical operations can
-be applied to whole arrays using a syntax like `c[] = a[] + b[]`, for example.
-This adds all elements of `a` and `b` so that
-`c[0] = a[0] + b[0]`, `c[1] = a[1] + b[1]`, etc. It is also possible
+可以使用 `~` 操作符来连接两个数组，这将会创建一个新的动态数组。
+可以像 `c[] = a[] + b[] 这样让算数运算应用在数组的所有元素上。
+这样操作会It is also possible
 to perform operations on a whole array with a single
 value:
 
