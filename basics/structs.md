@@ -1,7 +1,6 @@
-# Structs
+# 结构体
 
-One way to define compound or custom types in D is to
-define them through a `struct`:
+在D语言中，可以用 `struct` 定义一个复合类型或自定义类型 :
 
     struct Person {
         int age;
@@ -9,17 +8,12 @@ define them through a `struct`:
         float ageXHeight;
     }
 
-`struct`s are always constructed on the stack (unless created
-with `new`) and are copied **by value** in assignments or
-as parameters to function calls.
+`struct` 对象总是被创建在栈区（除非使用 `new` 创建）并在赋值/传递参数时复制值。例如：
 
     auto p = Person(30, 180, 3.1415);
-    auto t = p; // copy
+    auto t = p; // 复制
 
-When a new object of a `struct` type is created, its members can be initialized
-in the order they are defined in the `struct`. A custom constructor can be defined through
-a `this(...)` member function. If needed to avoid name conflicts, the current instance
-can be explicitly accessed with `this`:
+创建一个 `struct` 对象时，它的成员会按定义顺序被依次初始化。可以通过定义一个 `this(...)` 成员函数来建立构造函数，为了避免命名冲突，当前实例显式地使用 `this` 调用：
 
     struct Person {
         this(int age, int height) {
@@ -29,14 +23,10 @@ can be explicitly accessed with `this`:
         }
             ...
 
-    Person p(30, 180); // initialization
-    p = Person(30, 180);  // assignment to new instance
+    Person p(30, 180); // 依次初始化
+    p = Person(30, 180);  // 使用构造函数
 
-A `struct` might contain any number of member functions. These
-are by default `public` and accessible from the outside. They could
-also be `private` and thus only be callable by other
-member functions of the same `struct`, or other code in the same
-module.
+一个 `struct` 可以容纳任意数量的成员函数。默认情况下，成员函数被设定为 `public` 以允许从外部调用。成员函数也可以被设定为 `private` ，这样就只有同一 `struct` 下的其他成员函数或同一模块中的其他代码可以调用它。
 
     struct Person {
         void doStuff() {
@@ -44,52 +34,35 @@ module.
         private void privateStuff() {
             ...
 
-    p.doStuff(); // call method doStuff
-    p.privateStuff(); // forbidden
+    p.doStuff(); // 调用方法doStuff
+    p.privateStuff(); // 不允许
 
-### Const member functions
+### const 成员函数
 
-If a member function is declared with `const`, it won't be allowed
-to modify any of its members. This is enforced by the compiler.
-Making a member function `const` makes it callable on any `const`
-or `immutable` object, but also guarantees to callers that
-the member function will never change the state of the object.
+如果一个成员函数使用关键字 `const` 定义，那么该函数将不能修改对象成员，这是编译器强制要求的。
+只要 `const` 成员函数在 `const` 或 `immutable` 对象上可用，这向调用者保证它不会改变对象的状态。
 
-### Static member functions
+### 静态成员函数
 
-If a member function is declared as `static`, it will be callable
-without an instantiated object (e.g. `Person.myStatic()`) but it
-isn't allowed to access any non-`static` members.  It can be used if a
-method doesn't need to access any of the object member fields but logically
-belongs to the same class. Also it can be used to provide some functionality
-without creating an explicit instance, for example, some Singleton
-design pattern implementations use `static`.
+如果一个成员函数使用关键字 `static` 定义，那么即使没有实例化的对象也可以调用它（如：`Person.myStatic()`），但是它不能访问任何非 `static` 的成员。这很适合不访问成员但逻辑上属于该类型的方法，也可以用作在不创建实例的情况下提供某些功能，例如，一些单例模式的实现使用 `static`。
 
-### Inheritance
+### 继承
 
-Note that a `struct` can't inherit from another `struct`.
-Hierachies of types can only be built using classes,
-which we will see in a future section.
-However, with `alias this` or `mixins` one can easily achieve
-polymorphic inheritance.
+注意 `struct` 不能继承其他 `struct` 。富有层次的类型只能使用类（class）来定义，这个我们在后面的章节会讲到。但是，使用 `alias this` 或 `mixins` 之一可以轻松实现多重继承。
 
-### In-depth
+### 深入
 
-- [Structs in _Programming in D_](http://ddili.org/ders/d.en/struct.html)
-- [Struct specification](https://dlang.org/spec/struct.html)
+- [_D程序设计中的_ 结构体](http://ddili.org/ders/d.en/struct.html)
+- [D语言结构体规范](https://dlang.org/spec/struct.html)
 
-### Exercise
+### 练习
 
-Given the `struct Vector3`, implement the following functions and make
-the example application run successfully:
+给出 `struct Vector3` ，完成下列成员函数使示例应用正常运行：
 
-* `length()` - returns the vector's length
-* `dot(Vector3)` - returns the dot product of two vectors
-* `toString()` - returns a string representation of this vector.
-  The function [`std.string.format`](https://dlang.org/phobos/std_format.html)
-  returns a string using `printf`-like syntax:
-  `format("MyInt = %d", myInt)`. Strings will be explained in detail in a later
-  section.
+* `length()` - 返回向量的长度
+* `dot(Vector3)` - 返回两向量的点积
+* `toString()` - 返回向量的字符串表示
+  函数 [`std.string.format`](https://dlang.org/phobos/std_format.html) 返回一个字符串，语法类似 `printf` ，例如：`format("MyInt = %d", myInt)`。字符串将在后面的章节中详细讲解。
 
 ## {SourceCode:incomplete}
 
@@ -104,22 +77,18 @@ struct Vector3 {
         return 0.0;
     }
 
-    // rhs will be copied
+    // rhs 会被复制
     double dot(Vector3 rhs) const {
         return 0.0;
     }
 
     /**
-    Returns: representation of the string in the
-    special format. The output is restricted to
-    a precision of one!
+    返回: 特定格式的字符串表示，数字精确到十分位。
     "x: 0.0 y: 0.0 z: 0.0"
     */
     string toString() const {
         import std.string : format;
-        // Hint: refer to the documentation of
-        // std.format to see how to influence
-        // output for floating point numbers.
+        // 提示: 查阅 std.format 文档了解如何输出浮点数。
         return format("");
     }
 }
@@ -131,12 +100,11 @@ void main() {
     vec2.y = 20;
     vec2.z = 0;
 
-    // If a member function has no parameters,
-    // the calling braces () may be omitted
+    // 如果成员函数没有参数，可以省略调用时的括号
     assert(vec1.length == 10);
     assert(vec2.length == 20);
 
-    // Test the functionality for dot product
+    // 测试点积计算
     assert(vec1.dot(vec2) == 0);
 
     // 1 * 1 + 2 * 1 + 3 * 1
@@ -146,13 +114,12 @@ void main() {
     // 1 * 3 + 2 * 2 + 3 * 1
     assert(vec3.dot(Vector3(3, 2, 1)) == 10);
 
-    // Thanks to toString() we can now just
-    // output our vectors with writeln
+    // 有了 toString() 我们使用 writeln 输出向量
     import std.stdio : writeln, writefln;
     writeln("vec1 = ", vec1);
     writefln("vec2 = %s", vec2);
 
-    // Check the string representation
+    // 检查字符串格式
     assert(vec1.toString() ==
         "x: 10.0 y: 0.0 z: 0.0");
     assert(vec2.toString() ==
