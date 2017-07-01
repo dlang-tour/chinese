@@ -1,69 +1,60 @@
-# Classes
+# 类
 
-D provides support for classes and interfaces like in Java or C++.
+D语言提供类似Java或C++那样的“类”和“接口”支持。
 
-Any `class` type inherits from [`Object`](https://dlang.org/phobos/object.html) implicitly.
+任何 `class` 类型隐式地继承 [`Object`](https://dlang.org/phobos/object.html)。
 
-    class Foo { } // inherits from Object
-    class Bar : Foo { } // Bar is a Foo too
+    class Foo { } // 继承 Object
+    class Bar : Foo { } // Bar 和 Foo 相同
 
-Classes in D are generally instantiated on the heap using `new`:
+一般地，在D语言中，使用 `new` 会将类实例化到堆区：
 
     auto bar = new Bar;
 
-Class objects are always reference types and unlike `struct` aren't
-copied by value.
+类对象总是引用类型，不像 `struct` 那样进行值复制：
 
-    Bar bar = foo; // bar points to foo
+    Bar bar = foo; // bar 指向 foo
 
-The garbage collector will make sure the memory is freed
-when no references to an object exist anymore.
+当指向一个对象的引用不再存在时，垃圾回收器会自动释放这部分内存。
 
-### Inheritance
+### 继承
 
-If a member function of a base class is overridden, the keyword
-`override` must be used to indicate that. This prevents unintentional
-overriding of functions.
+如果要覆盖基类的成员函数，子类的该成员函数必须使用关键字 `override` 声明，这可以防止不经意的错误覆盖。
 
     class Bar : Foo {
         override functionFromFoo() {}
     }
 
-In D, classes can only inherit from one class.
+D语言的类只支持单继承。
 
-### Final and abstract member functions
+### final 和 abstract 成员函数
 
-- A function can be marked `final` in a base class to disallow overriding
-it
-- A function can be declared as `abstract` to force base classes to override
-it
-- A whole class can be declared as `abstract` to make sure
-that it isn't instantiated
-- `super(..)` can be used to explicitly call the base constructor
+- 成员函数可以被标记为 `final` 来防止被覆盖
+- 成员函数可以被声明为 `abstract` 来强制子类（重新）实现它
+- 声明为 `abstract` 的类不能被实例化
+- `super(..)` 可以显式地调用基类的构造函数
 
-### Checking for identity
+### 判等
 
-For class objects, the `==` and `!=` operators compare the contents of the objects.
-Therefore, comparing against `null` is invalid, as `null` has no contents.
-The `is` compares for identity. To compare for nonidentity, use `e1 !is e2`.
+对于类对象， `==` 和 `!=` 运算符比较对象的内容。因此，与 `null` 比较是（无效/非法）的，因为 `null` 没有内容。
+`is` 运算符可以判断相等性，要判断不等性，使用 `e1 !is e2` 。
 
 ```d
 MyClass c;
-if (c == null)  // error
+if (c == null)  // 错误
     ...
 if (c is null)  // ok
     ...
 ```
 
-For `struct` objects all bits are compared,
-for other operand types, identity is the same as equality.
+对于 `struct` 对象，进行逐位比较；对于其他普通类型，则和 `==` 是等价的。
 
-### In-depth
+### 深入
 
-- [Classes in _Programming in D_](http://ddili.org/ders/d.en/class.html)
-- [Inheritance in _Programming in D_](http://ddili.org/ders/d.en/inheritance.html)
-- [Object class in _Programming in D_](http://ddili.org/ders/d.en/object.html)
-- [Classes in D spec](https://dlang.org/spec/class.html)
+- [_D程序设计中的_ 类](http://ddili.org/ders/d.en/class.html)
+- [_D程序设计中的_ 继承](http://ddili.org/ders/d.en/inheritance.html)
+- [_D程序设计中的_ Object 类](http://ddili.org/ders/d.en/object.html)
+- [D语言类规范](https://dlang.org/spec/class.html)
 
 ## {SourceCode}
 
@@ -71,47 +62,45 @@ for other operand types, identity is the same as equality.
 import std.stdio : writeln;
 
 /*
-Fancy type which can be used for
-anything...
+设想一个可以用于任何事物的类...
 */
 class Any {
-    // protected is just seen by inheriting
-    // classes
+    // protected 可以被子类访问
     protected string type;
 
     this(string type) {
         this.type = type;
     }
 
-    // public is implicit by the way
+    // public 是隐式的
     final string getType() {
         return type;
     }
 
-    // This needs to be implemented!
+    // 这个方法需要实现！
     abstract string convertToString();
 }
 
 class Integer : Any {
-    // just seen by Integer
+    // 只有 Integer 可见
     private {
         int number;
     }
 
-    // constructor
+    // 构造函数
     this(int number) {
-        // call base class constructor
+        // 调用基类构造函数
         super("integer");
         this.number = number;
     }
 
-    // This is implicit. And another way
-    // to specify the protection level
+    // public 是隐式默认的
+    // 这里是另一种定义保护等级的方法
     public:
 
     override string convertToString() {
         import std.conv : to;
-        // The swiss army knife of conversion.
+        // 类型转换的瑞士军刀
         return to!string(number);
     }
 }
@@ -126,7 +115,7 @@ class Float : Any {
 
     override string convertToString() {
         import std.string : format;
-        // We want to control precision
+        // 我们要控制精度
         return format("%.1f", number);
     }
 }
