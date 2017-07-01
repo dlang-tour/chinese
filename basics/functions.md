@@ -57,9 +57,9 @@
 
 ### In-depth
 
-- [Functions in _Programming in D_](http://ddili.org/ders/d.en/functions.html)
-- [Function parameters in _Programming in D_](http://ddili.org/ders/d.en/function_parameters.html)
-- [Function specification](https://dlang.org/spec/function.html)
+- [_D 程序设计中的_ 函数](http://ddili.org/ders/d.en/functions.html)
+- [_D 程序设计中的_ 函数参数](http://ddili.org/ders/d.en/function_parameters.html)
+- [D 函数规范](https://dlang.org/spec/function.html)
 
 ## {SourceCode}
 
@@ -69,8 +69,7 @@ import std.random : uniform;
 
 void randomCalculator()
 {
-    // Define 4 local functions for
-    // 4 different mathematical operations
+    // 为 4 个不同的数学运算定义了 4 个局部函数
     auto add(int lhs, int rhs) {
         return lhs + rhs;
     }
@@ -87,8 +86,7 @@ void randomCalculator()
     int a = 10;
     int b = 5;
 
-    // uniform generates a number between START
-    // and END, whereas END is NOT inclusive.
+    // uniform 生成了一个半开半闭区间 [start, end)
     // Depending on the result we call one of
     // the math operations.
     switch (uniform(0, 4)) {
