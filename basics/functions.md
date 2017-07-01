@@ -1,19 +1,21 @@
-# Functions
+# 函数
 
-One function has already been introduced: `main()` - the starting point of every
-D program. A function may return a value (or be declared with
-`void` if nothing is returned) and accept an arbitrary number of arguments:
+我们已经介绍了过了一个函数函数：`main()`，它是每一个 D 程序的入口。
+每个函数都可以返回一个值（如果函数不需要返回值，那么可以将它的返回值类型声明为 `void`）
 
+```d
     int add(int lhs, int rhs) {
         return lhs + rhs;
     }
+```
 
-### `auto` return types
+### `auto` 返回值类型
 
 If the return type is defined as `auto`, the D compiler infers the return
 type automatically. Hence multiple `return` statements must return values with
 compatible types.
 
+```d
     auto add(int lhs, int rhs) { // returns `int`
         return lhs + rhs;
     }
@@ -24,6 +26,7 @@ compatible types.
         else
             return 1.0;
     }
+```
 
 ### Default arguments
 
@@ -31,11 +34,13 @@ Functions may optionally define default arguments.
 This avoids the tedious work of declaring redundant
 overloads.
 
+```
     void plot(string msg, string color = "red") {
         ...
     }
     plot("D rocks");
     plot("D rocks", "blue");
+```
 
 Once a default argument has been specified, all following arguments
 must be default arguments too.
@@ -47,12 +52,14 @@ used locally and aren't visible to the outside world.
 These functions can even have access to objects that are local to
 the parent's scope:
 
+```d
     void fun() {
         int local = 10;
         int fun_secret() {
             local++; // that's legal
         }
-        ...
+        // ...
+```
 
 Such nested functions are called delegates, and they will be explained in more depth
 [soon](basics/delegates).
