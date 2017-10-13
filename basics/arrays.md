@@ -29,31 +29,25 @@ D 语言有两种数组：**静态** 和 **动态** 的数组。
 #### 数组的属性与操作
 
 可以使用 `~` 操作符来连接两个数组，这将会创建一个新的动态数组。
-可以像 `c[] = a[] + b[] 这样让算数运算应用在数组的所有元素上。
-这样操作会It is also possible
-to perform operations on a whole array with a single
-value:
+可以像 `c[] = a[] + b[]` 这样对数组使用算术运算符，此时这个运算符会被应用在数组的每一个元素上。
+我们也可以使用一个单一的值对数组的每个元素进行处理：
 
+```d
     a[] *= 2; // multiple all elements by 2
     a[] %= 26; // calculate the modulo by 26 for all a's
+```
 
-These operations might be optimized
-by the compiler to use special processor instructions that
-do the operations in one go.
+这些操作可能会被编译器优化为使用特殊的指令一次进行。
 
-Both static and dynamic arrays provide the property `.length`,
-which is read-only for static arrays, but can be used in the case of
-dynamic arrays to change its size dynamically. The
-property `.dup` creates a copy of the array.
+动态数组和静态数组都提供 `.length` 属性。对于静态数组， `.length` 属性是只读的，
+但是你可以通过修改它来动态改变动态数组的大小。属性 `.dup` 创建数组的一个拷贝。
 
-When indexing an array through the `arr[idx]` syntax, a special
-`$` symbol denotes an array's length. For example, `arr[$ - 1]` references
-the last element and is a short form for `arr[arr.length - 1]`.
+当使用 `arr[idx]` 语法时, 特殊的符号 `$` 用来表示数组的长度。例如 `arr[$ - 1]` 引用了数组的最后一个元素，
+它是 `arr[arr.length - 1]` 的较短写法。
 
-### Exercise
+### 练习
 
-Complete the function `encrypt` to decrypt the secret message.
-The text should be encrypted using *Caesar encryption*,
+完成用来对信息解密的 `encrypt` 函数。文本会用 *Caesar encryption* 进行加密，
 which shifts the characters in the alphabet using a certain index.
 The to-be-encrypted text only contains characters in the range `a-z`,
 which should make things easier.
