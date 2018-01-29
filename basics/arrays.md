@@ -1,78 +1,63 @@
-# Arrays
+# 数组
 
-There are two types of Arrays in D: **static** and **dynamic**.
-Access to arrays of any kind is bounds-checked (except when the compiler can prove
-that bounds checks aren't necessary).
-A failed bounds check yields a `RangeError` which aborts the application.
-The brave can disable this safety feature with the
-compiler flag `-boundschecks=off`
-in order to gain speed improvements at the cost of safety.
+D语言中，数组有两种类型：**静态数组**和**动态数组**。
+对这两种数组的访问都会进行边界检查（除非编译器可以证明边界检查是不必要的）。
+如果检查过程发现错误，代码会抛出 `RangeError` 异常并退出程序。
+为了获得更快但更危险的代码，程序员中的勇者们可以设置编译器标志 `-boundscheck=off` 
+来禁用边界检查这个安全功能。
 
-#### Static arrays
+#### 静态数组
 
-Static arrays are stored on the stack if defined inside a function,
-or in static memory otherwise. They have a fixed,
-compile-time known length. A static array's type includes
-the fixed size:
+如果静态数组在函数中定义，它会被存储在栈上；否则它会被存储在静态内存中。
+静态数组长度固定，而且编译时已知。静态数组的数据类型包括了数组长度：
 
     int[8] arr;
 
-`arr`'s type is `int[8]`. Note that the size of the array is denoted
-next to the type, and not after the variable name like in C/C++.
+`arr` 的类型是 `int[8]`。
+注意数组长度位于数据类型后面，与 C/C++ 不同（数组长度位于变量名后面）。
 
-#### Dynamic arrays
+#### 动态数组
 
-Dynamic arrays are stored on the heap and can be expanded
-or shrunk at runtime. A dynamic array is created using a `new` expression
-and its length:
+动态数组存储在堆上，在运行时可以被扩展或者缩短。
+动态数组通过给定 `new` 表达式和长度来创建：
 
-    int size = 8; // run-time variable
+    int size = 8; // 运行时变量
     int[] arr = new int[size];
 
-The type of `arr` is `int[]`, which is a **slice**. Slices
-will be explained in more detail in the [next section](basics/slices). Multi-dimensional
-arrays can be created easily using the `auto arr = new int[3][3]` syntax.
+`arr` 的类型是 `int[]`, 它是一种切片。
+我们将在 [下一节](basics/slices) 中详细讲解切片。
+多维数组也很容易通过下面的语法创建，`auto arr = new int[3][3]`。
 
-#### Array operations and properties
+#### 数组操作和性质
 
-Arrays can be concatenated using the `~` operator, which
-will create a new dynamic array.
+两个数组可以用 `~` 算符来拼接，从而创建一个新的动态数组。
 
-Mathematical operations can
-be applied to whole arrays using a syntax like `c[] = a[] + b[]`, for example.
-This adds all elements of `a` and `b` so that
-`c[0] = a[0] + b[0]`, `c[1] = a[1] + b[1]`, etc. It is also possible
-to perform operations on a whole array with a single
-value:
+数学运算可以作用在整个数组上，语法类似 `c[] = a[] + b[]`。
+其将两个数组的元素一一相加, `c[0] = a[0] + b[0]`, `c[1] = a[1] + b[1]`。
+也可以对整个数组和单个数值进行计算：
 
-    a[] *= 2; // multiple all elements by 2
-    a[] %= 26; // calculate the modulo by 26 for all a's
+    a[] *= 2; // 所有元素乘2
+    a[] %= 26; // 所有元素对26取模
 
-These operations might be optimized
-by the compiler to use special processor instructions that
-do the operations in one go.
+可能的话，编译器会通过处理器的特殊指令，在一个回合内完成所有运算。
 
-Both static and dynamic arrays provide the property `.length`,
-which is read-only for static arrays, but can be used in the case of
-dynamic arrays to change its size dynamically. The
-property `.dup` creates a copy of the array.
+静态和动态数组都提供了长度性质 `.length`。
+这个性质对于静态数组来说是只读的。动态数组可以通过改变这个性质来改变数组的长度。
+拷贝性质 `.dup` 可以创建一个数组的拷贝。
 
-When indexing an array through the `arr[idx]` syntax, a special
-`$` symbol denotes an array's length. For example, `arr[$ - 1]` references
-the last element and is a short form for `arr[arr.length - 1]`.
+当以 `arr[idx]` 的形式来访问数组时，`$` 这个特殊符号被用来表示数组的长度。
+`arr[$ - 1]` 来指代数组的最后一个元素，可以看作是 `arr[arr.length - 1]` 的简写。
 
-### Exercise
+### 练习
 
-Complete the function `encrypt` to decrypt the secret message.
-The text should be encrypted using *Caesar encryption*,
-which shifts the characters in the alphabet using a certain index.
-The to-be-encrypted text only contains characters in the range `a-z`,
-which should make things easier.
+完成 `encrypt` 函数来对文字进行加密。使用*恺撒变换*，方法是将字母表中所有字母按一定数目进行偏移。
+为了简单起见，需要被加密的文字只包含 `a-z` 之间的字母。
 
-### In-depth
+### 深入了解
 
-- [Arrays in _Programming in D_](http://ddili.org/ders/d.en/arrays.html)
-- [Array specification](https://dlang.org/spec/arrays.html)
+- [数组 _Programming in D_](http://ddili.org/ders/d.en/arrays.html)
+- [D 语言切片](https://dlang.org/d-array-article.html)
+- [数组规范](https://dlang.org/spec/arrays.html)
 
 ## {SourceCode:incomplete}
 
@@ -80,16 +65,14 @@ which should make things easier.
 import std.stdio : writeln;
 
 /**
-Shifts every character in the
-array `input` for `shift` characters.
-The character range is limited to `a-z`
-and the next character after z is a.
+对 `input` 数组中的每一个字符偏移 `shift` 位。
+字符在 `a-z` 之间，`z` 的下一个字符是 `a`。
 
-Params:
-    input = array to shift
-    shift = shift length for each char
-Returns:
-    Shifted char array
+参数：
+    input = 待偏移的数组
+    shift = 偏移的数目
+返回值：
+    偏移后的数组
 */
 char[] encrypt(char[] input, char shift)
 {
@@ -100,20 +83,16 @@ char[] encrypt(char[] input, char shift)
 
 void main()
 {
-    // We will now encrypt the message with
-    // Caesar encryption and a
-    // shift factor of 16!
+    // 用凯撒变换加密信息，偏移数目是16
     char[] toBeEncrypted = [ 'w','e','l','c',
       'o','m','e','t','o','d',
-      // The last , is okay and will just
-      // be ignored!
+      // 最后一个逗号会被忽略
     ];
     writeln("Before: ", toBeEncrypted);
     auto encrypted = encrypt(toBeEncrypted, 16);
     writeln("After: ", encrypted);
 
-    // Make sure we the algorithm works
-    // as expected
+    // 确认算法是正确的
     assert(encrypted == [ 'm','u','b','s','e',
             'c','u','j','e','t' ]);
 }
