@@ -19,11 +19,11 @@ D实现了一个更不易出错和有更好的可读性迭代的“foreach”循
         writeln(e);
     }
 
-第二个字段必须是一个数组 - 或者一个特殊的可迭代对象，将在[下一节](basics/ranges)中介绍，称为**范围**
+第二个字段必须是一个数组 - 或者一个特殊的可迭代对象，将在[下一节](basics/ranges)中介绍，称为**Range**
 
 ### 通过引用存取
 
-元素将在迭代过程中从数组或范围中复制。
+元素将在迭代过程中从数组或Range中复制。
 这对基本类型是可以接受的，但对于大的类型
 会是一个问题。 为了防止复制或允许 *就地(in-place)*
 更改，可以使用`ref`：
@@ -64,8 +64,8 @@ D允许编写应该执行`n`次的迭代，用`..`语法更简洁：
 
 ### 深入
 
-- [在 _D程序设计_ 中的 `foreach`](http://ddili.org/ders/d.en/foreach.html)
-- [在 _D程序设计_ 中的 对结构体和类的 `foreach`](http://ddili.org/ders/d.en/foreach_opapply.html)
+- [_D程序设计_ 中的 `foreach`](http://ddili.org/ders/d.en/foreach.html)
+- [_D程序设计_ 中的 对结构体和类的 `foreach`](http://ddili.org/ders/d.en/foreach_opapply.html)
 - [`foreach` 规范](https://dlang.org/spec/statement.html#ForeachStatement)
 
 ## {SourceCode}

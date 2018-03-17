@@ -1,17 +1,12 @@
-# Interfaces
+# 接口 interface
 
-D allows defining `interface`s which are technically like
-`class` types, but whose member functions must be implemented
-by any class inheriting from the `interface`.
+D允许 技术上与`class`类型相似的`interface`，但是这些（interface的）成员函数需要被继承自`interface`的类实现。
 
     interface Animal {
         void makeNoise();
     }
 
-The `makeNoise` member function has to be implemented
-by `Dog` because it inherits from the `Animal` interface.
-Essentially `makeNoise` behaves like an `abstract` member
-function in a base class.
+`makeNoise`成员函数需要被`Dog`实现，因为它继承自`Animal`接口。实质上`makeNoise`表现得像是一个基类中的`abstract`成员函数。
 
     class Dog : Animal {
         override makeNoise() {
@@ -20,22 +15,14 @@ function in a base class.
     }
 
     auto dog = new Dog;
-    Animal animal = dog; // implicit cast to interface
+    Animal animal = dog; // 隐式转换为接口
     animal.makeNoise();
 
-The number of `interface`s a `class` can implement isn't limited,
-but it can inherit from only *one* base class.
+一个`类`可实现的`接口`数没有限制。但是它只能继承自 *一个* 基类。
 
-### NVI (non virtual interface) pattern
+### NVI (非虚拟接口non virtual interface) 模式
 
-The [NVI pattern](https://en.wikipedia.org/wiki/Non-virtual_interface_pattern)
-prevents the violation of a common execution pattern by allowing _non virtual_ methods
-for a common interface.
-D easily enables the NVI pattern by
-allowing the definition of `final` functions in an `interface`
-that aren't allowed to be overridden. This enforces specific
-behaviours customized by overriding the other `interface`
-functions.
+[NVI 模式](https://en.wikipedia.org/wiki/Non-virtual_interface_pattern)通过允许通用接口的 _非虚拟_ 方法来防止违反通用执行模式。 D通过允许在“接口”中定义`final`函数来禁止被覆写，从而简单地实现了NVI模式。通过重写其他`interface`函数可以强制执行特定的行为。
 
     interface Animal {
         void makeNoise();
@@ -46,11 +33,12 @@ functions.
         }
     }
 
-### In-depth
+### 深入
 
-- [Interfaces in _Programming in D_](http://ddili.org/ders/d.en/interface.html)
-- [Interfaces in D](https://dlang.org/spec/interface.html)
+- [_D程序设计_中的接口](http://ddili.org/ders/d.en/interface.html)
+- [D中的接口](https://dlang.org/spec/interface.html)
 
+<!-- 这里对注释的翻译并不好 -->
 ## {SourceCode}
 
 ```d
@@ -58,18 +46,17 @@ import std.stdio : writeln;
 
 interface Animal {
     /*
-    Virtual function
-    which needs to be overridden!
+    虚函数
+    需要被重写!
     */
     void makeNoise();
 
     /*
-    NVI pattern. Uses makeNoise internally
-    to customize behaviour inheriting
-    classes.
+    NVI 模式. 在内部使用 makeNoise
+    来自定义继承类的行为。
     
-    Params: 
-        n =  number of repetitions
+    参数: 
+        n =  重复的次数
     */
     final void multipleNoise(int n) {
         for(int i = 0; i < n; ++i) {
