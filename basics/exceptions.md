@@ -1,13 +1,10 @@
-# Exceptions
+# 异常 Exceptions
 
-This guide is only about User-`Exceptions` - System-`Errors` are usually fatal
-and should __never__ be caught.
+这个教程是只关于用户的-`异常` - 系统-`错误`通常是致命的，而且 __绝不__ 应该被捕获。
 
-### Catching Exceptions
+### 捕获异常 Catching Exceptions
 
-A common case for exceptions is to validate potentially invalid user input.
-Once an exception is thrown, the stack will be unwound until the first matching exception
-handler is found.
+出现异常的常见情况是验证可能无效的用户输入。一旦抛出异常，堆栈将被展开，直到找到第一个匹配的异常处理程序。
 
 ```d
 try
@@ -20,8 +17,7 @@ catch (FileException e)
 }
 ```
 
-It's possible to have multiple `catch` blocks and a `finally` block that is executed
-regardless of whether an error occurred. Exceptions are thrown with `throw`.
+（异常处理）可能会有多个catch块和一个不管是否发生错误都会执行的finally块。 通过`throw`抛出异常。
 
 ```d
 try
@@ -42,12 +38,11 @@ finally
 }
 ```
 
-Remember that the [scope guard](gems/scope-guards) is usually a better solution to the `try-finally`
-pattern.
+记住 [scope guard](gems/scope-guards) 常常是一个更好的 `try-finally` 模式。
 
-### Custom exceptions
+### 自定义异常 Custom exceptions
 
-One can easily inherit from `Exception` and create custom exceptions:
+可以很容易地从`Exception`继承并创建自定义异常：
 
 ```d
 class UserNotFoundException : Exception
@@ -59,44 +54,41 @@ class UserNotFoundException : Exception
 throw new UserNotFoundException("D-Man is on vacation");
 ```
 
-### Enter a safe world with `nothrow`
+### 用`nothrow`进入安全的世界 Enter a safe world with `nothrow`
 
-The D compiler can ensure that a function can't cause catastrophic side-effects.
-Such functions can be annotated with the `nothrow` keyword. The D compiler
-statically forbids throwing exceptions in `nothrow` functions.
+D编译器可以确保函数不会导致灾难性的副作用。这样的函数可以用`nothrow`关键字指出。D编译器静态地禁止在`nothrow`函数中抛出异常。
 
 ```d
 bool lessThan(int a, int b) nothrow
 {
-    writeln("unsafe world"); // output can throw exceptions, thus this is forbidden
+    writeln("unsafe world"); // 输出可能会抛出异常，因此这样是禁止的
     return a < b;
 }
 ```
 
-Please note that the compiler is able to infer attributes for templated code
-automatically.
+请注意编译器能够自动推断模板代码的属性。
 
 ### std.exception
 
-It is important to avoid contract programming for user-input as the contracts
+由于在发布模式下编译时约束会被删除，因此避免用户输入的契约编程很重要。<!-- 这里没翻好 -->为了方便，[`std.exception`](https://dlang.org/phobos/std_exception.html)提供了可以像`assert`一样使用但是不是抛出`AssertError`而是抛出`Exception`的[`enforce`](https://dlang.org/phobos/std_exception.html#enforce)
+
+<!-- It is important to avoid contract programming for user-input as the contracts
 are removed when compiled in release mode. For convenience
 [`std.exception`](https://dlang.org/phobos/std_exception.html) provides
 [`enforce`](https://dlang.org/phobos/std_exception.html#enforce)
 that can be used like `assert`, but throws `Exception`s
-instead of an `AssertError`.
+instead of an `AssertError`. -->
 
 ```d
 import std.exception : enforce;
 float magic = 1_000_000_000;
 enforce(magic + 42 - magic == 42, "Floating-point math is fun");
 
-// throw custom exceptions
+// 抛出自定义的异常
 enforce!StringException('a' != 'A', "Case-sensitive algorithm");
 ```
 
-However there's more in `std.exception`. For example when the error might not be
-fatal, one can opt-in to
-[collect](https://dlang.org/phobos/std_exception.html#collectException) it:
+总之在`std.exception`中还有更多。例如，当错误可能不是致命的时候，可以选择[collect](https://dlang.org/phobos/std_exception.html#collectException)它：
 
 ```d
 import std.exception : collectException;
@@ -105,13 +97,13 @@ if (e)
     writeln("The dangerous operation failed with ", e);
 ```
 
-To test whether an exception is thrown in tests, use [`assertThrown`](https://dlang.org/phobos/std_exception.html#assertThrown).
+为了测试是否在测试中引发异常，使用[`assertThrown`](https://dlang.org/phobos/std_exception.html#assertThrown).
 
-### In-depth
+### 深入
 
-- [Exception Safety in D](https://dlang.org/exception-safe.html)
+- [D的异常安全](https://dlang.org/exception-safe.html)
 - [std.exception](https://dlang.org/phobos/std_exception.html)
-- system-level [core.exception](https://dlang.org/phobos/core_exception.html)
+- 系统级别 [core.exception](https://dlang.org/phobos/core_exception.html)
 - [object.Exception](https://dlang.org/library/object/exception.html) - base class of all exceptions that are safe to catch and handle.
 
 ## {SourceCode}
@@ -133,7 +125,7 @@ void main()
 		writeln("Line: ", e.line);
 		writeln("Stack trace:\n", e.info);
 
-		// Default formatting could be used too
+		// 也可以使用默认格式化
 		// writeln(e);
     }
 }

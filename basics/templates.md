@@ -1,61 +1,46 @@
-# Templates
+# 模板 Templates
 
-**D** allows defining templated functions similar to C++ and Java
-which is a means to define **generic** functions or objects which work
-for any type that compiles with the statements within the function's body:
+**D** 允许定义类似于C++和Java的模板函数，这也是意图定义 **泛型** 函数或类适用于与表达式一起编译在函数体内的任意类型：
 
     auto add(T)(T lhs, T rhs) {
         return lhs + rhs;
     }
 
-The template parameter `T` is defined in a set of parentheses
-in front of the actual function parameters. `T` is a placeholder
-which is replaced by the compiler when actually *instantiating*
-the function using the `!` operator:
+模板参数`T`在实际函数的参数前的一组括号中定义。`T`是一个当函数实际使用`!`运算符*实例化*时 会被编译器替换的占位符：
 
     add!int(5, 10);
     add!float(5.0f, 10.0f);
-    add!Animal(dog, cat); // won't compile; Animal doesn't implement +
+    add!Animal(dog, cat); // 不会（通过）编译；Animal没有实现 +
 
-### Implicit Template Parameters
+### 隐式模板参数 Implicit Template Parameters
 
-Function templates have two parameter sets - the first is for
-compile-time arguments and the second is for run-time arguments.
-(Non-templated functions can accept only run-time arguments).
-If one or more compile-time arguments are left unspecified when the function is called,
-the compiler tries to deduce them from the list of run-time arguments as the types of those arguments.
+函数模板有两个参数集 - 第一个是编译时参数集第二个是运行时参数集。（非模板函数只能接受运行时参数）。如果调用函数时没有指定一个或者更多的编译时参数，编译器会尝试推导从运行时参数列表中推导出它们作为这些参数的类型。
 
     int a = 5; int b = 10;
-    add(a, b); // T is to deduced to `int`
+    add(a, b); // T 被推导为 `int`
     float c = 5.0;
-    add(a, c); // T is deduced to `float`
+    add(a, c); // T 被推导为 `float`
 
-### Template properties
+### 模板属性 Template properties
 
-A function can have any number of template parameters which
-are specified during instantiation using the `func!(T1, T2 ..)`
-syntax. Template parameters can be of any basic type
-including `string`s and floating point numbers.
+一个函数可以使用`func!(T1, T2 ..)`语法在实现时指定任意数量的模板参数。模板参数可以是任意基础类型包括`string`和浮点数。
 
-Unlike generics in Java, templates in D are compile-time only, and yield
-highly optimized code tailored to the specific set of types
-used when actually calling the function
+与Java中的泛型不同，D中的模板仅适用于编译时，并且会为实际调用函数时使用的特定类型集生成高度优化的代码。
 
-Of course, `struct`, `class` and `interface` types can be defined as template
-types too.
+当然，`struct`，`class`和`interface`类型也可以被定义为模板类型。
 
     struct S(T) {
         // ...
     }
 
-### In-depth
+### 深入
 
-- [Tutorial to D Templates](https://github.com/PhilippeSigaud/D-templates-tutorial)
-- [Templates in _Programming in D_](http://ddili.org/ders/d.en/templates.html)
+- [D模板教程](https://github.com/PhilippeSigaud/D-templates-tutorial)
+- [_D程序设计_中的模板](http://ddili.org/ders/d.en/templates.html)
 
-#### Advanced
+#### 进阶
 
-- [D Templates spec](https://dlang.org/spec/template.html)
+- [D模板规范](https://dlang.org/spec/template.html)
 - [Templates Revisited](http://dlang.org/templates-revisited.html):  Walter Bright writes about how D improves upon C++ templates.
 - [Variadic templates](http://dlang.org/variadic-function-templates.html): Articles about the D idiom of implementing variadic functions with variadic templates
 
@@ -65,10 +50,9 @@ types too.
 import std.stdio : writeln;
 
 /**
-Template class that allows
-generic implementation of animals.
-Params:
-    noise = string to write
+模板类允许animals的泛型实现
+参数:
+    noise = 要写入的字符串
 */
 class Animal(string noise) {
     void makeNoise() {
@@ -83,12 +67,10 @@ class Cat: Animal!("Meeoauw") {
 }
 
 /**
-Template function which takes any
-type T that implements a function
-makeNoise.
-Params:
-    animal = object that can make noise
-    n = number of makeNoise calls
+模板函数会接受类型T来实现函数makeNoise.
+参数:
+    animal = 可以发出声音（make noise）的对象
+    n = makeNoise调用的次数。
 */
 void multipleNoise(T)(T animal, int n) {
     for (int i = 0; i < n; ++i) {
