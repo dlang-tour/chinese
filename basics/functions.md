@@ -1,6 +1,6 @@
 # 函数
 
-一个函数已经被介绍过了`main()` - 每一个D程序的起始点。一个函数可以返回一个值（或通过定义为`void`不返回任何东西）并接受任意数量的参数：
+我们前面介绍了`main()`函数，它是每一个D程序的起始点。一个函数可以返回一个值（或通过定义为`void`不返回任何东西）并接受任意数量的参数：
 
     int add(int lhs, int rhs) {
         return lhs + rhs;
@@ -8,7 +8,7 @@
 
 ### `auto` 返回值类型
 
-如果返回类型被定义为 `auto`, D编译器将自动推断返回值类型。 因此多个`return`表达式必须返回兼容的类型。
+如果返回类型被定义为 `auto`, D编译器将自动推断返回值类型。 因此多个`return`表达式返回的类型必须兼容。
 
     auto add(int lhs, int rhs) { // 返回 `int`
         return lhs + rhs;
@@ -23,7 +23,7 @@
 
 ### 默认参数
 
-函数可以选择性地定义默认参数。这避免了声明冗余重载的繁重工作。
+函数可以选择性地定义默认参数，这让我们不必为声明太多的函数重载而殚精竭虑。
 
     void plot(string msg, string color = "red") {
         ...
@@ -35,7 +35,7 @@
 
 ### 局部函数
 
-函数甚至可以在其他函数中进行声明，它们可以在局部中使用并且对外部世界不可见。这些函数可以存取其父作用域的局部对象：
+函数甚至可以在其他函数中进行声明，它们可以在局部作用域中使用，但在外部作用域不可见。这些函数可以存取其父作用域的局部对象：
 
     void fun() {
         int local = 10;
@@ -44,7 +44,7 @@
         }
         ...
 
-这样的嵌套函数被称作委托（delegates）, 他们将[很快](basics/delegates)被更深入地解释。
+这样的嵌套函数被称作委托（delegates）, 我们在[后面](basics/delegates)会深入地去解释这个概念。
 
 ### In-depth
 
@@ -60,8 +60,7 @@ import std.random : uniform;
 
 void randomCalculator()
 {
-    //  为4中不同的数学计算
-    //  定义 4 个局部函数
+    //  为四则运算定义4个局部函数
     auto add(int lhs, int rhs) {
         return lhs + rhs;
     }
@@ -78,7 +77,7 @@ void randomCalculator()
     int a = 10;
     int b = 5;
 
-    // uniform 产生一个在START和END之间，不包括END的数字。
+    // uniform 生成一个在START和END之间，但不包括END的数字。
     // 根据结果，我们调用其中一个数学函数。
     switch (uniform(0, 4)) {
         case 0:
