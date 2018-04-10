@@ -1,4 +1,4 @@
-# Contract programming
+# Contract programming 契约编程
 
 Contract programming in D includes a set of language constructs
 that allow increasing the code quality by implementing

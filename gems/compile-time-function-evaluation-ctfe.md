@@ -1,47 +1,29 @@
-# Compile Time Function Evaluation (CTFE)
+# Compile Time Function Evaluation (CTFE) 编译时函数求值
 
-CTFE is a mechanism which allows the compiler to execute
-functions at **compile time**. There is no special set of the D
-language necessary to use this feature - whenever
-a function just depends on compile time known values
-the D compiler might decide to interpret
-it during compilation.
+CTFE是一种允许编译器在**编译时**执行函数的机制。 这个特性不需要特殊的D语言集 - 只要函数只依赖于编译时已知的值，D编译器就会决定在编译期间解释它。
 
-    // result will be calculated at compile
-    // time. Check the machine code, it won't
-    // contain a function call!
+    // 结果将在编译时计算。
+    // 查看机器码，
+    // 它不会包含函数调用！
     static val = sqrt(50);
 
-Keywords like `static`, `immutable` or `enum`
-instruct the compiler to use CTFE whenever possible.
-The great thing about this technique is that
-functions don't need to be rewritten to use
-it, and the same code can perfectly be shared:
+像`static`，`immutable`或`enum`这样的关键字指示编译器尽可能使用CTFE。这种技术的好处是，函数不需要重写就可以使用它，并且相同的代码可以被完美地共享：
 
     int n = doSomeRuntimeStuff();
-    // same function as above but this
-    // time it is just called the classical
-    // run-time way.
+    // 与上面相同的函数，但这次它只是在经典的运行时调用。
     auto val = sqrt(n);
 
-One prominent example in D is the [std.regex](https://dlang.org/phobos/std_regex.html)
-library. It provides at type `ctRegex` type which uses
-*string mixins* and CTFE to generate a highly optimized
-regular expression automaton that is generated during
-compilation. The same code base is re-used for
-the run-time version `regex` that allows to compile
-regular expressions only available at run-time.
+
+D中的一个显然的例子是[std.rege](https://dlang.org/phobos/std_regex.html)库。 它提供使用* string mixins *和CTFE来生成在编译期间生成的高度优化的正则表达式自动机，`ctRegex`类型。 相同的代码被编译允许仅在运行时可用的正则表达式版本`regex` 重新使用。
 
     auto ctr = ctRegex!(`^.*/([^/]+)/?$`);
     auto tr = regex(`^.*/([^/]+)/?$`);
-    // ctr and tr can be used interchangely
-    // but ctr will be faster!
+    // ctr和tr可以互换使用
+    // 但是ctr更快！
 
-Not all language features are available
-during CTFE but the supported feature set is increased
-with every release of the compiler.
+在CTFE中，并非所有语言特性都是可用的，但支持的功能随编译器的版本增加而增加。
 
-### In-depth
+### In-depth 深入
 
 - [Introduction to regular expressions in D](https://dlang.org/regular-expression.html)
 - [std.regex](https://dlang.org/phobos/std_regex.html)
@@ -53,13 +35,12 @@ with every release of the compiler.
 import std.stdio : writeln;
 
 /**
-Calculate the square root of a number
-using Newton's approximation scheme.
+使用牛顿迭代法计算数字的平方根。
 
-Params:
-    x = number to be squared
+参数:
+    x = 将要求平方根的数字
     
-Returns: square root of x 
+返回值: x 的平方根
 */
 auto sqrt(T)(T x) {
     // our epsilon when to stop the

@@ -39,8 +39,8 @@ void main()
         writeln("\t<head>");
         scope(exit) writeln("\t</head>");
         "\t<title>%s</title>".writefln("Hello");
-    } // the scope(exit) on the previous line
-      // is executed here
+    } // 上一行的scope(exit)
+      // 在这里执行
 
     writeln("\t<body>");
     scope(exit) writeln("\t</body>");

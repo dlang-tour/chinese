@@ -1,30 +1,24 @@
 # Traits
 
-One of D's powers is its compile-time function evaluation (CTFE) system.
-Combined with introspection, generic programs can be written and
-heavy optimizations can be achieved.
+D的强大之处之一是其编译时功能评估（compile-time function evaluation， CTFE）系统。 结合introspection，可以编写泛型程序并实现高度优化。
 
-## Explicit contracts
+## 显式关联 Explicit contracts
 
-Traits allow to specify explicitly what input is accepted.
-For example `splitIntoWords` can operate on any arbitrary string type:
+Traits允许明确指定接受哪些输入。例如`splitIntoWords`可以在任意字符串类型上进行操作：
 
 ```d
 S[] splitIntoWord(S)(S input)
 if (isSomeString!S)
 ```
 
-This applies to template parameters as well and `myWrapper` can ensure that the
-passed-in symbol is a callable function:
+这也适用于模板参数，`myWrapper`可以确保传入的符号是可调用的函数：
 
 ```d
 void myWrapper(alias f)
 if (isCallable!f)
 ```
 
-As a simple example, [`commonPrefix`](https://dlang.org/phobos/std_algorithm_searching.html#.commonPrefix)
-from `std.algorithm.searching`, which returns the common prefix of two ranges,
-will be analyzed:
+作为一个简单的例子，我们可以分析`std.algorithm.searching`中返回两个range公共前缀的[`commonPrefix`]（https://dlang.org/phobos/std_algorithm_searching.html#.commonPrefix）：
 
 ```d
 auto commonPrefix(alias pred = "a == b", R1, R2)(R1 r1, R2 r2)
@@ -34,24 +28,20 @@ if (isForwardRange!R1
     !isNarrowString!R1)
 ```
 
-This means that the function is only callable and thus compiles if:
+这意味着该函数只有在下列情况时才能编译并调用：
 
-- `r1` is save-able (guaranteed by `isForwardRange`)
-- `r2` is iterable (guaranteed by `isInputRange`)
-- `pred` is callable with element types of `r1` and `r2`
-- `r1` isn't a narrow string (`char[]`, `string`, `wchar` or `wstring`) - for simplicity, otherwise decoding might be needed
+- `r1`是可保存的（由`isForwardRange`保证）
+- `r2`是可迭代的（由`isInputRange`保证）
+- `r1`和`r2`的元素类型，`pred`可以调用
+- `r1`不是一个窄字符串（`char []`，`string`，`wchar`或`wstring`） - 为了简单性，否则可能需要解码
 
 ### Specialization
 
-Many APIs aim to be general-purpose, however they don't want to pay with extra
-runtime for this generalization.
-With the power of introspection and CTFE, it is possible to specialize a method
-on compile-time to achieve the best performance given the input types.
+许多API希望成为通用的，所以他们不希望为这个一般化付出额外的运行时间。<!-- 不知道怎么翻 -->
+凭借introspection和CTFE的强大功能，可以在编译时指定一种在给定输入类型的情况下达到最佳性能的方法。
 
-A common problem is that in contrast to arrays you might not know the exact length
-of a stream or list before walking through it.
-Hence a simple implementation of the `std.range` method `walkLength`
-which generalizes for any iterable type would be:
+一个常见的问题是，与数组相比，您在遍历它之前不知道流或列表的确切长度。
+因此，为任意可迭代类型推广的`std.range`方法`walkLength`的简单实现将是：
 
 ```d
 static if (hasMember!(r, "length"))
@@ -62,10 +52,7 @@ else
 
 #### `commonPrefix`
 
-The use of compile-time introspection is ubiquitous in Phobos. For example
-`commonPrefix` differentiates between `RandomAccessRange`s
-and linear iterable ranges because in `RandomAccessRange` it's possible to jump
-between positions and thus speed-up the algorithm.
+编译时introspection的使用在Phobos中无处不在。 例如`commonPrefix`不同于`RandomAccessRange`和线性可迭代range，因为在`RandomAccessRange`中可以在不同位置之间跳转，从而加快算法的速度。
 
 #### More CTFE magic
 
