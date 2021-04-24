@@ -44,7 +44,7 @@
     void fun() {
         int local = 10;
         int fun_secret() {
-            local++; // that's legal
+            local++; // 这是合法的
         }
         ...
 
@@ -53,9 +53,9 @@
 
 ### 深入
 
--   [Functions in _Programming in D_](http://ddili.org/ders/d.en/functions.html)
--   [Function parameters in _Programming in D_](http://ddili.org/ders/d.en/function_parameters.html)
--   [Function specification](https://dlang.org/spec/function.html)
+-   [D 程序设计中的函数](http://ddili.org/ders/d.en/functions.html)
+-   [D 程序设计中的函数参数](http://ddili.org/ders/d.en/function_parameters.html)
+-   [函数说明](https://dlang.org/spec/function.html)
 
 ## {SourceCode}
 
