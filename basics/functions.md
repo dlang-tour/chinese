@@ -1,35 +1,32 @@
-# Functions
+# 函数
 
-One function has already been introduced: `main()` - the starting point of every
-D program. A function may return a value (or be declared with
-`void` if nothing is returned) and accept an arbitrary number of arguments:
+已经引入了一个函数: `main()` - 这是每个 D 程序的起点。
+一个函数可以返回一个值(如果没有返回值，则用`void`声明)，并接受任意数量的参数 :
 
     int add(int lhs, int rhs) {
         return lhs + rhs;
     }
 
-### `auto` return types
+### `auto` 返回值类型
 
-If the return type is defined as `auto`, the D compiler infers the return
-type automatically. Hence multiple `return` statements must return values with
-compatible types.
+如果返回类型定义为 `auto`, 则 D 编译器会自动推断返回类型。
+因此，多个 `return` 语句必须返回具有兼容类型的值。
 
-    auto add(int lhs, int rhs) { // returns `int`
+    auto add(int lhs, int rhs) { // 返回 `int`类型的数据
         return lhs + rhs;
     }
 
-    auto lessOrEqual(int lhs, int rhs) { // returns `double`
+    auto lessOrEqual(int lhs, int rhs) { // 返回 `double`类型的数据
         if (lhs <= rhs)
             return 0;
         else
             return 1.0;
     }
 
-### Default arguments
+### 默认参数
 
-Functions may optionally define default arguments.
-This avoids the tedious work of declaring redundant
-overloads.
+函数可以选择定义默认参数。
+这避免了声明冗余重载的繁琐工作。
 
     void plot(string msg, string color = "red") {
         ...
@@ -37,15 +34,12 @@ overloads.
     plot("D rocks");
     plot("D rocks", "blue");
 
-Once a default argument has been specified, all following arguments
-must be default arguments too.
+一旦指定了默认参数，下面所有的参数也必须是默认参数。
 
-### Local functions
+### 局部函数
 
-Functions may even be declared inside other functions, where they may be
-used locally and aren't visible to the outside world.
-These functions can even have access to objects that are local to
-the parent's scope:
+函数甚至可以在其他函数中声明，在其他函数中声明的话，它们可以在局部使用，对外部是不可使用的。
+这些函数甚至可以访问父作用域的局部对象:
 
     void fun() {
         int local = 10;
@@ -54,14 +48,14 @@ the parent's scope:
         }
         ...
 
-Such nested functions are called delegates, and they will be explained in more depth
+这种嵌套函数称为委托，我们将更深入地解释它们。
 [soon](basics/delegates).
 
-### In-depth
+### 深入
 
-- [Functions in _Programming in D_](http://ddili.org/ders/d.en/functions.html)
-- [Function parameters in _Programming in D_](http://ddili.org/ders/d.en/function_parameters.html)
-- [Function specification](https://dlang.org/spec/function.html)
+-   [Functions in _Programming in D_](http://ddili.org/ders/d.en/functions.html)
+-   [Function parameters in _Programming in D_](http://ddili.org/ders/d.en/function_parameters.html)
+-   [Function specification](https://dlang.org/spec/function.html)
 
 ## {SourceCode}
 
