@@ -1,40 +1,32 @@
-# Template meta programming
+# 模板元编程 Template meta programming
 
-If you ever got in touch with *template meta programming*
-in C++ you will be relieved what tools D offers to make
-your life easier. Template meta programming is a technique
-that enables decision-making depending on template type properties
-and thus allows to make generic types even more flexible
-based on the type they are going to be instantiated with.
+
+如果你曾经在C++中接触过 *template meta programming*，那么你可以放心使用D提供的工具来让你的生活更轻松。模板元编程是一种根据模板类型属性进行决策，从而根据将要实例化的类型使泛型更加灵活的技术。
 
 ### `static if` & `is`
 
-Like the normal `if`, `static if` conditionally
-compiles a code block based on a condition that can
-be evaluated at compile time:
+像普通的`if`一样, `static if`可以根据在编译时可以求值的条件来编译一个代码块：
 
     static if(is(T == int))
         writeln("T is an int");
     static if (is(typeof(x) :  int))
         writeln("Variable x implicitely converts to int");
 
-The [`is` expression](http://wiki.dlang.org/Is_expression) is
-a generic helper that evaluates conditions at compile time.
+[`is` expression](http://wiki.dlang.org/Is_expression)是一个在编译期间可以执行条件的泛型助手
 
-    static if(is(T == int)) { // T is template parameter
+    static if(is(T == int)) { // T 是模板参数
         int x = 10;
     }
 
-Braces are omitted if the condition is `true` - no new scope is created.
-`{ {` and `} }` explicitly create a new block.
+如果条件为`true`，则省略大括号 - 不会创建新范围。 `{ {` 和 `} }` 显式创建一个新块。
 
-`static if` can be used anywhere in the code - in functions,
-at global scope or within type definitions.
+`static if`可以在代码中任何地方使用 - 函数中，全局作用域里或类型定义中。
 
 ### `mixin template`
 
-Anywhere you see *boiler plate*, `mixin template`
-is your friend:
+无论何时你看到*boiler plate*， `mixin template`都是你的朋友：
+
+<!-- boiler plate 一成不变的代码？下面是贬义词的感觉。 -->
 
     mixin template Foo(T) {
         T foo;
@@ -42,29 +34,21 @@ is your friend:
     ...
     mixin Foo!int; // int foo available from here on.
 
-`mixin template` might contain any number of
-complex expressions that are inserted at the instantiation
-point. Say good-bye to the
-pre-processor if you're coming from C!
 
-### Template constraints
+插入其实例化点的`mixin template`可能包含任意数量的复杂表达式。如果你从C来的，向预处理器说拜拜吧！
 
-A template might be defined with any number of
-constraints that enforce what properties
-a type must have:
+### 模板约束 Template constraints
+
+可以用任意数量的约束定义模板以强制一个类型必须有的属性:
 
     void foo(T)(T value)
-      if (is(T : int)) { // foo!T only valid if T
-                         // converts to int
+      if (is(T : int)) { // foo!T 只有在T
+                         // 转换为int时才是合法的
     }
 
-Constraints can be combined in boolean expression
-and might even contain function calls that can be evaluated
-at compile-time. For example `std.range.primitives.isRandomAccessRange`
-checks whether a type is a range that supports
-the `[]` operator.
+约束可以在布尔表达式中进行组合，甚至可以包含在编译时执行的函数调用。 例如`std.range.primitives.isRandomAccessRange`检查一个类型是否是一个支持`[]`运算符的range。
 
-### In-depth
+### 深入
 
 ### Basics references
 
@@ -90,8 +74,7 @@ import std.string : format;
 import std.stdio : writeln;
 
 /*
-A Vector that just works for
-numbers, integers or floating points.
+一个只对数字、整数或浮点数有效的向量
 */
 struct Vector3(T)
   if (is(T: real))
@@ -100,14 +83,12 @@ private:
     T x,y,z;
 
     /*
-    Generator for getter and setter because
-    we really hate boiler plate!
+    产生getter和setter因为我们真的痛恨 boiler plate!
     
-    var -> T getVAR() and void setVAR(T)
+    var -> T getVAR() 和 void setVAR(T)
     */
     mixin template GetterSetter(string var) {
-        // Use mixin to construct function
-        // names
+        // 使用 mixin 来构造函数名
         mixin("T get%s() const { return %s; }"
           .format(var.toUpper, var));
 
@@ -116,8 +97,7 @@ private:
     }
 
     /*
-    Easily generate getX, setX etc.
-    functions with a mixin template.
+    使用mixin template简单地产生getX，setX等函数
     */
     mixin GetterSetter!"x";
     mixin GetterSetter!"y";
@@ -125,8 +105,7 @@ private:
 
 public:
     /*
-    The dot function is only available
-    for floating points types
+    dot函数只有对浮点类型才是可用的。
     */
     static if (isFloatingPoint!T) {
         T dot(Vector3!T rhs) {
@@ -139,9 +118,8 @@ public:
 void main()
 {
     auto vec = Vector3!double(3,3,3);
-    // That doesn't work because of the template
-    // constraint!
-    // Vector3!string illegal;
+    // 因为模板约束，这不会奏效！
+    // Vector3!string 非法;
 
     auto vec2 = Vector3!double(4,4,4);
     writeln("vec dot vec2 = ", vec.dot(vec2));
@@ -151,7 +129,7 @@ void main()
     // we statically enabled it only for float's
     // vecInt.dot(Vector3!int(0,0,0));
 
-    // generated getter and setters!
+    // 产生了 getter 和 setters!
     vecInt.setX(3);
     vecInt.setZ(1);
     writeln(vecInt.getX, ",",

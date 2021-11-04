@@ -1,75 +1,54 @@
 # std.parallelism
 
-The module `std.parallelism` implements
-high level primitives for convenient concurrent programming.
+`std.parallelism`模块实现了高级原语以方便并发编程。
 
-### parallel
+### 并发 parallel
 
-[`std.parallelism.parallel`](http://dlang.org/phobos/std_parallelism.html#.parallel) allows to automatically distribute
-a `foreach`'s body to different threads:
+[`std.parallelism.parallel`]（http://dlang.org/phobos/std_parallelism.html#.parallel）允许自动分配`foreach`的循环体到不同的线程：
 
-    // parallel squaring of arr
+    // 并发地对arr进行平方
     auto arr = iota(1,100).array;
     foreach(ref i; parallel(arr)) {
         i = i*i;
     }
 
-`parallel` uses the `opApply` operator internally.
-The global `parallel`  is a shortcut to `taskPool.parallel`
-which is a `TaskPool` that uses *total number of cpus - 1*
-working threads. Creating your own instance allows
-to control the degree of parallelism.
+`parallel`在内部使用`opApply`操作符。全局`parallel`是`taskPool.parallel`的缩写，它是一个`任务池TaskPool`，它使用 *cpus数量-1* 个工作线程。创建你自己的实例来控制并行度。
 
-Beware that the body of a `parallel` iteration must
-make sure that it doesn't modify items that another
-working unit might have access to.
+请注意，`parallel`迭代的主体必须确保它不会修改其他工作单元可能访问的事物。
 
-The optional `workingUnitSize` specifies the number of elements processed
-per worker thread.
+可选项`workingUnitSize`指定每个工作线程处理的元素数量。
 
 ### reduce
 
-The function
-[`std.algorithm.iteration.reduce`](http://dlang.org/phobos/std_algorithm_iteration.html#reduce) -
-known from other functional contexts as *accumulate* or *foldl* -
-calls a function `fun(acc, x)` for each element `x`
-where `acc` is the previous result:
+函数[`std.algorithm.iteration.reduce`](http://dlang.org/phobos/std_algorithm_iteration.html#reduce) - 从其他函数上下文中也被称为 *accumulate* 或 *foldl* - 对每个元素`x`调用函数`fun(acc，x)`，其中`acc`是上一个结果：
 
-    // 0 is the "seed"
+    // 0是"种子"
     auto sum = reduce!"a + b"(0, elements);
 
 [`Taskpool.reduce`](http://dlang.org/phobos/std_parallelism.html#.TaskPool.reduce)
-is the parallel analog to `reduce`:
+是`reduce`的并行模拟:
 
-    // Find the sum of a range in parallel, using the first
-    // element of each work unit as the seed.
+    // 并行算出一个range的总和，使用每个工作单元的首个元素作为种子
     auto sum = taskPool.reduce!"a + b"(nums);
 
-`TaskPool.reduce` splits the range into
-sub ranges that are reduced in parallel. Once these
-results have been calculated, the results are reduced
-themselves.
+`TaskPool.reduce`将range分割成并行减少的子range。一旦计算出这些结果，结果就会自行减少它们自己。
 
 ### `task()`
 
-[`task`](http://dlang.org/phobos/std_parallelism.html#.task) is a wrapper for a function
-that might take longer or should be executed in
-its own working thread. It can either be enqueued
-in a taskpool:
+[`task`](http://dlang.org/phobos/std_parallelism.html#.task) 是一个可能需要更长时间或者应该在自己的工作线程中执行的函数的包装。 它可以在任务池中排队等待：
 
     auto t = task!read("foo.txt");
     taskPool.put(t);
 
-Or directly be executed in its own, new thread:
+或者在它自己的新线程中执行：
 
     t.executeInNewThread();
 
-To get a task's result call `yieldForce`
-on it. It will block until the result is available.
+调用`yieldForce`可以得到一个任务的结果。在结果可用之前，它会阻塞。
 
     auto fileData = t.yieldForce;
 
-### In-depth
+### 深入
 
 - [Parallelism in _Programming in D_](http://ddili.org/ders/d.en/parallelism.html)
 - [std.parallelism](http://dlang.org/phobos/std_parallelism.html)

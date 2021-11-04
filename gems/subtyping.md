@@ -1,29 +1,19 @@
-# Subtyping
+# 子类型 Subtyping
 
-`struct` can't inherit from other `struct`s. But
-for those poor `struct`s D provides another great
-means to extend their functionality: **subtyping**.
+`struct` 不能继承自其它`struct`。但是对于那些可怜的`struct`，D提供了另一种扩展功能的好方法：**subtyping**。
 
-A struct type can define one of its members as
-`alias this`:
+一个结构类型可以将其中一个成员定义为`alias this`：
 
     struct SafeInt {
         private int theInt;
         alias theInt this;
     }
 
-Any function or operation on `SafeInt` that can't
-be handled by the type itself will be forwarded
-to the `alias this`ed member. From the outside
-`SafeInt` then looks like a normal integer.
+`SafeInt`上的任何函数或操作都不能被类型本身处理，它们将被转发到已经被`alias this`的成员。从外部的`SafeInt`看起来像一个正常的整数。
 
-This allows extending other types
-with new functionality but with zero overhead
-in terms of memory or runtime. The compiler
-makes sure to do the right thing when
-accessing the `alias this` member.
+这允许使用新功能扩展其他类型而在内存和运行时间方面没有开销。编译器会确保在访问`alias this`成员时做正确的事情。
 
-`alias this` work with classes too.
+`alias this`也适用于类。
 
 ## {SourceCode}
 

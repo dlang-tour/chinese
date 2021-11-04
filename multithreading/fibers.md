@@ -1,18 +1,8 @@
-# Fibers
+# Fibers 纤程
 
-**Fibers** are a way to implemented concurrency
-in a *cooperative* fashion. The class `Fiber`
-is defined in the module [`core.thread`](https://dlang.org/phobos/core_thread.html).
+**纤程 Fibers**是一种以*协作*方式实现并发的方法。 类`Fiber`在模块[`core.thread`](https://dlang.org/phobos/core_thread.html)中定义。
 
-The basic idea is that when a fiber
-has nothing to do or waits for more input, it
-*actively* gives away its possibility to
-execute instructions by calling `Fiber.yield()`.
-The parent context gains control again but the
-fiber's state - all variables on the stack - are
-saved. The fiber can then be resumed
-and will continue at the instruction right *after*
-it called `Fiber.yield()`. Magic? Yes.
+其基本思想是当纤程无事可做或正在等待输入时，它通过调用`Fiber.yield()`*主动*放弃执行指令的可能性。它的父上下文再次获得控制权，而纤程中的状态 - 堆栈中的所有变量 - 都被保存。纤程可以恢复，并可以继续执行紧跟在`Fiber.yield()`之后的指令。 很神奇吧？ 是的。
 
     void foo() {
         writeln("Hello");
@@ -24,19 +14,11 @@ it called `Fiber.yield()`. Magic? Yes.
     f.call(); // Prints Hello
     f.call(); // Prints World
 
-This feature can be used to implement concurrency
-where multiple fibers cooperatively share a single
-core. The advantage of fibers compared to threads is
-that their resource usage is lower because
-no context switching is involved.
+此功能可用于实现多个光纤协作共享单个内核的并发性。与线程相比，光纤的优势在于其资源使用率更低，因为不涉及上下文切换。
 
-A very good usage of this technique can be seen in
-the [vibe.d framework](http://vibed.org) which implements
-non-blocking (or asynchronous) I/O operations
-in terms of fibers leading to much cleaner
-code.
+这个技术的一种非常好的使用是在[vibe.d framework](http://vibed.org)中实现非阻塞（或异步）的I/O操作中，使用纤程会得到更清爽的代码。
 
-### In-depth
+### In-depth 深入
 
 - [Fibers in _Programming in D_](http://ddili.org/ders/d.en/fibers.html)
 - [Documentation of core.thread.Fiber](https://dlang.org/library/core/thread/fiber.html)

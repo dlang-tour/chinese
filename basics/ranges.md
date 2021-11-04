@@ -1,15 +1,15 @@
-# Ranges: 范围
+# Ranges
 
-If a `foreach` is encountered by the compiler
+如果 `foreach` 遭遇编译器时，
 
 ```
 foreach (element; range)
 {
-    // Loop body...
+    // 循环体...
 }
 ```
 
-it's internally rewritten similar to the following:
+他被内部重写为相似于如下：
 
 ```
 for (auto __rangeCopy = range;
@@ -17,21 +17,13 @@ for (auto __rangeCopy = range;
      __rangeCopy.popFront())
  {
     auto element = __rangeCopy.front;
-    // Loop body...
+    // 循环体...
 }
 ```
 
-If the range object is a reference type (e.g. `class`), then the range will be
-consumed and won't available for subsequent iteration (that is unless the
-loop body breaks before the last loop iteration). If the range object is
-a value type, then a copy of the range will be made and depending on the
-way the range is defined the loop may or may not consume the original
-range. Most of the ranges in the standard library are structs and so `foreach`
-iteration is usually non-destructive, though not guaranteed. If this
-guarantee is important, require **forward** ranges.
+如果range对象是引用类型（例如`class`），那么range将会被消耗并且不会用于随后的迭代（除非循环体在最后一次循环迭代之前打破）。如果范围对象是一个值类型，那么将会创建一个range的副本，并根据范围的定义方式，循环可能会也可能不会消耗原始range。 标准库中的大部分range都是结构体，所以`foreach`迭代通常是非破坏性的，虽然不能确保。 如果确保这个很重要，那么需要**forward** ranges。
 
-Any object which fulfills the following interface is called a **range**
-and is thus a type that can be iterated over:
+任何一个满足下面接口的对象都称作**range**，因此这也是一个可以迭代的类：
 
 ```
     struct Range
@@ -41,28 +33,15 @@ and is thus a type that can be iterated over:
         void popFront();
     }
  ```
-Note that while it is customary for `empty` and `front` to be defined as `const`
-functions (implying that calling them won't modify the range), this is not
-required.
+请注意，虽然通常将`empty`和`front`定义为`const`函数（意味着调用它们不会修改范围），但这不是必需的。
 
-The functions in [`std.range`](http://dlang.org/phobos/std_range.html) and
-[`std.algorithm`](http://dlang.org/phobos/std_algorithm.html) provide
-building blocks that make use of this interface. Ranges allow us
-to compose complex algorithms behind an object that
-can be iterated with ease. Furthermore, ranges allow us to create **lazy**
-objects that only perform a calculation when it's really needed
-in an iteration e.g. when the next range's element is accessed.
-Special range algorithms will be presented later in the
-[D's Gems](gems/range-algorithms) section.
+在 [`std.range`](http://dlang.org/phobos/std_range.html) 和[`std.algorithm`](http://dlang.org/phobos/std_algorithm.html) 中的函数提供了使用此接口的构建块。Range允许我们在可以轻松迭代的对象身后组合复杂的算法。此外，range允许我们创建 **惰性(lazy)** 对象，这些对象只在迭代中真正需要时才执行计算，例如当访问range中的下一个元素时。 特殊的range算法将在[D's Gems](gems/range-algorithms)部分稍后介绍。
 
 ### Exercise
 
-Complete the source code to create the `FibonacciRange` range
-that returns numbers of the
-[Fibonacci sequence](https://en.wikipedia.org/wiki/Fibonacci_number).
-Don't fool yourself into deleting the `assert`ions!
+完成创建`FibonacciRange`range的源代码，那会返回[斐波那契数列](https://en.wikipedia.org/wiki/Fibonacci_number)的数值。不要删除`assert`部分来自我欺骗！
 
-### In-depth
+### 深入
 
 - [`std.algorithm`](http://dlang.org/phobos/std_algorithm.html)
 - [`std.range`](http://dlang.org/phobos/std_range.html)
@@ -76,8 +55,8 @@ struct FibonacciRange
 {
     bool empty() const @property
     {
-        // So when does the Fibonacci sequence
-        // end?!
+        // 所以斐波那契数列会什么时候
+        // 结束？！
     }
 
     void popFront()
@@ -96,15 +75,12 @@ void main()
 
     FibonacciRange fib;
 
-    // `take` creates another range which
-    // will return N elements at maximum.
-    // This range is _lazy_ and just
-    // touches the original range
-    // if actually needed
+    // `take`会创建另一个range，其中最多有N个元素。
+    // 此range为_惰性的_，并且如果真的需要会恰好遍历完原始range 
     auto fib10 = take(fib, 10);
 
-    // But we do want to touch all elements and
-    // convert the range to array of integers.
+    // 但是我们确实想要便利所有元素并
+    // 将range转换成整型数组。
     int[] the10Fibs = array(fib10);
 
     writeln("The 10 first Fibonacci numbers: ",

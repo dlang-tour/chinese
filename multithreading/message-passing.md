@@ -1,24 +1,12 @@
-# Message Passing
+# Message Passing 消息传递
 
-Instead of dealing with threads and doing synchronization
-yourself D allows to use *message passing* as a means
-to leverage the power of multiple cores. Threads communicate
-with *messages* - which are arbitrary values - to distribute
-work and synchronize themselves. They don't share data
-by design which avoids the common problems of
-multi-threading.
+在D中，我们不用自己处理线程和做同步，而是可以使用*消息传递* 作为利用多核功能的手段。 线程通过*消息*进行通信，*消息*可以是任意值，来分配工作并进行线程间的同步。他们设计上不共享数据，从而避免了多线程的常见问题。
 
-All functions that implement message passing in D
-can be found in the [`std.concurrency`](https://dlang.org/phobos/std_concurrency.html)
-module. `spawn` creates a new *thread* based on a
-user-defined function:
+在D中所有实现消息传递的函数都可以在[`std.concurrency`](https://dlang.org/phobos/std_concurrency.html)模块中找到。`spawn`基于用户定义的函数创建一个新的 *线程 thread*：
 
     auto threadId = spawn(&foo, thisTid);
 
-`thisTid` is a `std.concurrency` built-in and references
-the current thread which is needed for message passing. `spawn`
-takes a function as first parameter and
-additional parameters to that function as arguments.
+`thisTid`是`std.concurrency`内置的，并且引用消息传递所需的当前线程。 `spawn`将一个函数作为第一个参数，并将其它参数作为该函数的参数。
 
     void foo(Tid parentTid) {
         receive(
@@ -28,27 +16,21 @@ additional parameters to that function as arguments.
         send(parentTid, "Done");
     }
 
-The `receive` function is like a `switch`-`case`
-and dispatches the values it receives from other threads
-to the passed `delegates` - depending on the received
-value's type.
+`receive`函数就像`switch`-`case`一样，将从其他线程接收到的值根据类型分派给过去的`delegates`。
 
-To send a message to a specific thread use the function `send`
-and its id:
+为了发送消息到特定的线程，需要使用`send`函数和线程的id
 
     send(threadId, 42);
 
-`receiveOnly` can be used to just receive a specified
-type:
+可以用`receiveOnly`来接收一个指定的类型：
 
     string text = receiveOnly!string();
     assert(text == "Done");
 
-The `receive` family functions block until something
-has been sent to the thread's mailbox.
+`receive`族的函数会阻塞知道有东西被发送到线程的接收地。
 
 
-### In-depth
+### In-depth 深入
 
 - [Exchanging Messages between Threads](http://www.informit.com/articles/article.aspx?p=1609144&seqNum=5)
 - [Messaging passing concurrency](http://ddili.org/ders/d.en/concurrency.html)

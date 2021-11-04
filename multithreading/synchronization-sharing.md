@@ -1,52 +1,32 @@
-# Synchronization & Sharing
+# Synchronization & Sharing 异步 & 共享
 
-Although the preferred way in D to do multi-threading
-is to rely on `immutable` data and synchronize threads
-using message passing, the language has built-in
-support for *synchronization* primitives as well as
-type system support with `shared` to mark objects
-that are accessed from multiple threads.
+虽然在D中执行多线程的首选方法是依赖`immutable`数据并使用消息传递同步线程，但在D语言中，与类型系统一样支持一样，内置了对*synchronization*原语的支持，使用`shared`来标记可以被多个线程访问的对象。
 
-The `shared` type identifier allows to mark variables
-that are shared among different threads:
+`shared`类型标识符可以标记不同线程之间共享的变量：
 
     shared(int)* p = new int;
-    int* t = p; // ERROR
+    int* t = p; // 错误
 
-For example `std.concurrency.send` just allows to send either
-`immutable` or `shared` data and copying the message
-to be sent. `shared` is transitive so if a `class` or `struct`
-is marked `shared` all its members will be too.
-Note that `static` variables aren't `shared` by
-default because they are implemented using
-*thread local storage* (TLS) and each thread gets
-its own variable.
+例如`std.concurrency.send`只允许发送`immutable`或`shared`数据并且会复制要发送的消息。 `shared`是可传递的，所以如果一个`class`或`struct`被标记为`shared`，那么它的所有成员都是`shared`的。
+注意`static`变量默认不是`shared`，因为它们是使用*线程本地存储*（TLS）实现的，每个线程都有它自己的变量。
 
 `synchronized` blocks allow to instruct the compiler
 to create  a critical section that can only be entered
 by one thread at a time.
+`synchronized`块用于指示编译器创建一个关键区，同一时间只能有一个线程进入。
 
     synchronized {
         importStuff();
     }
 
-Within `class` member functions these blocks might be
-limited to different member objects *mutexes*
-with `synchronized(member1, member2)` to reduce
-contention. The D compiler inserts *critical
-sections* automatically. A whole class can be marked
-as `synchronized` as well and the compiler will
-make sure that just one thread accesses a concrete
-instance of it at a time.
+在`class`成员函数中，这些块可能被用`synchronized(member1，member2)`限制为不同的成员对象的*mutexes*来减少争用。 D编译器自动插入*临界区*。一整个类也可以标记为`synchronized`，编译器将确保同一时间只有一个线程访问它的具体实例。
 
-Atomic operations on `shared` variables can be
-performed using the `core.atomic.atomicOp`
-helper:
+对`shared`变量的原子操作可以使用`core.atomic.atomicOp`助手执行：
 
     shared int test = 5;
     test.atomicOp!"+="(4);
 
-### In-depth
+### In-depth 深入
 
 - [Data Sharing Concurrency in _Programming in D_](http://ddili.org/ders/d.en/concurrency_shared.html)
 - [`shared` type qualifier](http://www.informit.com/articles/article.aspx?p=1609144&seqNum=11)

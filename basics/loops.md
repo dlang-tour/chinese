@@ -1,11 +1,11 @@
-# Loops
+# 循环
 
-D provides four loop constructs.
+D 提供四种循环结构.
 
 ### 1) `while`
 
-`while`  loops execute the given code block
-while a certain condition is met:
+当满足特定的条件时，
+`while` 循环执行给定的代码块:
 
     while (condition)
     {
@@ -14,20 +14,17 @@ while a certain condition is met:
 
 ### 2) `do ... while`
 
-The `do .. while` loops execute the given code block
-while a certain condition is met, but in contrast to `while`
-the _loop block_ is executed before the loop condition is
-evaluated for the first time.
+当满足特定的条件时，`do .. while` 循环也会执行给定的代码块, 但是与 `while` 相反的是，在循环条件被第一次求值之前， _循环体_ 就将会被执行了。0
 
     do
     {
         foo();
     } while (condition);
 
-### 3) Classical `for` loop
+### 3) 经典 `for` 循环
 
-The classical `for` loop known from C/C++ or Java
-with _initializer_, _loop condition_ and _loop statement_:
+
+经典的for循环在C/C++ 或 Java 中被人们所知，包括 _初始化语句_, _循环条件_ 和 _循环表达式_:
 
     for (int i = 0; i < arr.length; i++)
     {
@@ -35,18 +32,16 @@ with _initializer_, _loop condition_ and _loop statement_:
 
 ### 4) `foreach`
 
-The [`foreach` loop](basics/foreach) which will be introduced in more detail
-in the next section:
+[`foreach` 循环](basics/foreach) 将会在下一个章节中进行详细的介绍：
 
     foreach (el; arr)
     {
         ...
     }
 
-#### Special keywords and labels
+#### 特殊的关键词和标签
 
-The special keyword `break` will immediately abort the current loop.
-In a nested loop a _label_ can be used to break out of any outer loop:
+特殊关键词`break`将会立即打断当前循环。在一个嵌套循环中，一个 _标签_ 可以用于跳出到任意外部循环:
 
     outer: for (int i = 0; i < 10; ++i)
     {
@@ -55,13 +50,13 @@ In a nested loop a _label_ can be used to break out of any outer loop:
             ...
             break outer;
 
-The keyword `continue` starts with the next loop iteration.
+关键词`continue` 会开启下一个循环迭代。
 
-### In-depth
+### 深入
 
-- `for` loop in [_Programming in D_](http://ddili.org/ders/d.en/for.html), [specification](https://dlang.org/spec/statement.html#ForStatement)
-- `while` loop in [_Programming in D_](http://ddili.org/ders/d.en/while.html), [specification](https://dlang.org/spec/statement.html#WhileStatement)
-- `do-while` loop in [_Programming in D_](http://ddili.org/ders/d.en/do_while.html), [specification](https://dlang.org/spec/statement.html#do-statement)
+- `for` 循环 在 [_D程序设计_](http://ddili.org/ders/d.en/for.html), [规范](https://dlang.org/spec/statement.html#ForStatement)
+- `while` 循环 在 [_D程序设计_](http://ddili.org/ders/d.en/while.html), [规范](https://dlang.org/spec/statement.html#WhileStatement)
+- `do-while` 循环 在 [_D程序设计_](http://ddili.org/ders/d.en/do_while.html), [规范](https://dlang.org/spec/statement.html#do-statement)
 
 ## {SourceCode}
 
@@ -69,22 +64,21 @@ The keyword `continue` starts with the next loop iteration.
 import std.stdio : writeln;
 
 /*
-Computes the average of
-the elements of an array.
+计算一个数组中元素的平均值
 */
 double average(int[] array)
 {
-    // The property .empty for arrays isn't
-    // native in D but has to be made accessible
-    // by importing the function from std.array
+    // 数组的.empty属性不是D中原生的
+    // 但已经可以通过
+    // 从std.array中引入这个函数来使用
     import std.array : empty, front;
 
     double accumulator = 0.0;
     auto length = array.length;
     while (!array.empty)
     {
-        // this could be also done with .front
-        // with import std.array : front;
+        // 对于.front属性也是这样
+        // 通过 import std.array : front;
         accumulator += array[0];
         array = array[1 .. $];
     }

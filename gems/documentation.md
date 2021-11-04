@@ -1,31 +1,21 @@
-# Documentation
+# Documentation 文档
 
-D tries to integrate important parts of modern
-software engineering directly into the language.
-Besides *contract programming* and *unittesting*
-D allows to natively generate [documentation](https://dlang.org/phobos/std_variant.html)
-out of your source code.
+D打算将现代软件工程的重要部分直接继承到语言中。除*合约编程*和*单元测试*，D允许从源代码中本地生成[文档](https://dlang.org/phobos/std_variant.html)。
 
-Using a standard schema for documenting types
-and functions the command `dmd -D` conveniently
-generates HTML documentation based on the source
-files passed on command line.
-In fact the whole [Phobos library documentation](https://dlang.org/phobos)
-has been generated with *DDoc*.
+使用标准格式记录类型和函数，命令`dmd -D`能方便地根据在命令行上传递的源文件生成HTML文档。事实上，整个[Phobos库文档](https://dlang.org/phobos)都是用*DDoc*生成的。
 
-The following comment styles are considered
-by DDoc for inclusion into the source code
-documentation:
+DDoc将以下样式的注释纳入源代码文档中：
 
-* `/// Three slashes before type or function`
-* `/++ Multiline comment with two +  +/`
-* `/** Multiline comment with two *  */`
+* `/// 类型或函数前的三个斜杠`
+* `/++ 用了两个+号的多行注释  +/`
+* `/** 用了两个*号的多行注释  */`
 
 Have a look at the source code example
 to see some standardized documentation
 sections.
+看看源代码示例以查看一些标准化文档章节。
 
-### In-depth
+### In-depth 深入
 
 - [DDoc design](https://dlang.org/spec/ddoc.html)
 - [Phobos standard library documentation](https://dlang.org/phobos)

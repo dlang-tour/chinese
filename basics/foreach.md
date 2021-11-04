@@ -1,78 +1,72 @@
-# Foreach
+# Foreach循环
 
 {{#img-right}}dman-teacher-foreach.jpg{{/img-right}}
 
-D features a `foreach` loop which allows
-less error-prone and better readable iterations.
+D实现了一个更不易出错和有更好的可读性迭代的“foreach”循环
 
-### Element iteration
+### 元素迭代
 
-Given an array `arr` of type `int[]` it is possible to
-iterate through the elements using a `foreach` loop:
+给定一个类型为`int []`的数组`arr`，可以使用`foreach`循环遍历元素：
 
     foreach (int e; arr) {
         writeln(e);
     }
 
-The first field in the `foreach` definition is the variable
-name used in the loop iteration. Its type is induced automatically:
+`foreach` 定义中的第一个字段是循环迭代中使用的变量。 它的类型是自动推导的：
 
     foreach (e; arr) {
         // typeof(e) is int
         writeln(e);
     }
 
-The second field must be an array - or a special iterable
-object called a **range** which will be introduced in the [next section](basics/ranges).
+第二个字段必须是一个数组 - 或者一个特殊的可迭代对象，将在[下一节](basics/ranges)中介绍，称为**Range**
 
-### Access by reference
+### 通过引用存取
 
-Elements will be copied from the array or range during iteration.
-This is acceptable for basic types, but might be a problem for
-large types. To prevent copying or to enable *in-place
-*mutation, `ref` can be used:
+元素将在迭代过程中从数组或Range中复制。
+这对基本类型是可以接受的，但对于大的类型
+会是一个问题。 为了防止复制或允许 *就地(in-place)*
+更改，可以使用`ref`：
 
     foreach (ref e; arr) {
-        e = 10; // overwrite value
+        e = 10; // 覆写原值
     }
 
-### Iterate `n` times
+### 迭代 `n` 次
 
-D allows to write iterations which should be executed
-`n` times, more concisely with the `..` syntax:
+D允许编写应该执行`n`次的迭代，用`..`语法更简洁：
 
     foreach (i; 0 .. 3) {
         writeln(i);
     }
     // 0 1 2
 
-The last number in `a .. b` is excluded from the range,
-thus the loop body is executed `3` times.
+`a .. b`中的最后一个数字不在范围内，
+因此循环体执行了3次。
 
-### Iteration with index counter
+### 使用索引计数器（index counter）迭代
 
-For arrays, it's also possible to access a separate index variable.
+对于数组, 也可以存取一个分割的索引变量。
 
     foreach (i, e; [4, 5, 6]) {
         writeln(i, ":", e);
     }
     // 0:4 1:5 2:6
 
-### Reverse iteration with `foreach_reverse`
+### 使用 `foreach_reverse` 进行反向迭代
 
-A collection can be iterated in reverse order with
-`foreach_reverse`:
+一个集合可以使用`foreach_reverse`以相反的顺序进行迭代:
 
     foreach_reverse (e; [1, 2, 3]) {
         writeln(e);
     }
     // 3 2 1
 
-### In-depth
+### 深入
 
-- [`foreach` in _Programming in D_](http://ddili.org/ders/d.en/foreach.html)
-- [`foreach` with Structs and Classes  _Programming in D_](http://ddili.org/ders/d.en/foreach_opapply.html)
-- [`foreach` specification](https://dlang.org/spec/statement.html#ForeachStatement)
+- [_D程序设计_ 中的 `foreach`](http://ddili.org/ders/d.en/foreach.html)
+- [_D程序设计_ 中的 对结构体和类的 `foreach`](http://ddili.org/ders/d.en/foreach_opapply.html)
+- [`foreach` 规范](https://dlang.org/spec/statement.html#ForeachStatement)
 
 ## {SourceCode}
 

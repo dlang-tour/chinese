@@ -1,45 +1,30 @@
-# Alias & Strings
+# 别名与字符串 Alias & Strings
 
-Now that we know what arrays are, have gotten in touch with `immutable`,
-and had a quick look at the basic types, it's time to introduce two
-new constructs in one line:
+现在我们知道了数组是什么，已经接触过了`immutable`并对基础类型已经有了一个快速地了解。是时候在一行之内介绍两个新的构造了。
 
     alias string = immutable(char)[];
 
-The term `string` is defined by an `alias` statement which defines it
-as a slice of `immutable(char)`s. This means, once a `string` has been constructed
-its content will never change again. And actually this is the second
-introduction: welcome UTF-8 `string`!
+术语 `string` 是通过 `alias` 语句定义的 `immutable(char)` 的一个切片。 这意味着，一旦一个`string`被构造，它的内容将不会再被改变了。事实上这是第二个介绍了：欢迎见到UTF-8 `string`!
 
-Due to their immutablility, `string`s can be shared perfectly among
-different threads. As `string` is a slice, parts can be taken out of it without
-allocating memory. The standard function
-[`std.algorithm.splitter`](https://dlang.org/phobos/std_algorithm_iteration.html#.splitter)
-for example, splits a string by newline without any memory allocations.
+根据他们的不可变性，`string`可以被不同进程完美共享。因为`string`是一个切片，部分可以在不分配内存的情况下被取出。举例来说, 标准函数[`std.algorithm.splitter`](https://dlang.org/phobos/std_algorithm_iteration.html#.splitter)以新行来分割函数而不需要任何内存分配。
 
-Besides the UTF-8 `string`, there are two more types:
+在UTF-8 `string`之下，还有两种更多的类型：
 
     alias wstring = immutable(wchar)[]; // UTF-16
     alias dstring = immutable(dchar)[]; // UTF-32
 
+<!-- 好吧这个我真的不知道怎么翻译 :P -->
 The variants are most easily converted between each other using
 the `to` method from `std.conv`:
 
     dstring myDstring = to!dstring(myString);
     string myString   = to!string(myDstring);
 
-### Unicode strings
+### Unicode字符串 Unicode strings
 
-This means that a plain `string` is defined as an array of 8-bit Unicode [code
-units](http://unicode.org/glossary/#code_unit). All array operations can be
-used on strings, but they will work on a code unit level, and not a character level. At
-the same time, standard library algorithms will interpret `string`s as sequences
-of [code points](http://unicode.org/glossary/#code_point), and there is also an
-option to treat them as sequence of
-[graphemes](http://unicode.org/glossary/#grapheme) by explicit usage of
-[`std.uni.byGrapheme`](https://dlang.org/library/std/uni/by_grapheme.html).
+这意味着单纯的`string`被定义为8位Unicode[编码单元(code units)](http://unicode.org/glossary/#code_unit)的数组。所有数组操作可以被在string中使用，但是他们将会在编码单元级别而不是字符级别工作。在同时，标准库算法将会打断作为一个[编码点(code points)](http://unicode.org/glossary/#code_point)序列的`string`，而且此处也有一个选项来把它们当成[graphemes](http://unicode.org/glossary/#grapheme)序列：通过显式地使用[`std.uni.byGrapheme`](https://dlang.org/library/std/uni/by_grapheme.html)。
 
-This small example illustrates the difference in interpretation:
+这个小例子指出在解析上的不同：
 
     string s = "\u0041\u0308"; // Ä
 
@@ -51,6 +36,7 @@ This small example illustrates the difference in interpretation:
     import std.uni : byGrapheme;
     writeln(s.byGrapheme.walkLength); // 1
 
+这里`s`实际的数组长度是3，因为它有三个编码单元： `0x41`, `0x03` 和 `0x08`。接下来的2表示单个
 Here the actual array length of `s` is 3, because it contains 3 code units:
 `0x41`, `0x03` and `0x08`. Those latter two define a single code point
 (combining diacritics character) and

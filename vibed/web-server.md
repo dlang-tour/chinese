@@ -2,6 +2,7 @@
 
 Vibe.d allows writing HTTP(S) web servers in no
 time:
+Vibe.d能迅速编写HTTP(S)网络服务器：
 
     auto settings = new HTTPServerSettings;
     settings.port = 8080;
@@ -9,6 +10,7 @@ time:
 
 This starts a web server on port 8080 where all
 requests are handled by a `foo` function:
+这将在端口8080上启动一个web服务器，由`foo`函数处理他的所有请求都：
 
     void foo(HTTPServerRequest req,
         HTTPServerResponse res) { ... }
@@ -20,6 +22,7 @@ handlers using the `.get("path", handler)`
 and `.post("path", handler)` member functions, or
 registering a custom *web interface* class which implements
 web server paths as member functions:
+为了简化经典使用模式和不同路径的配置，（d语言）提供了一个`URLRouter`类，它可以允许使用`.get("path", handler)`和`.post("path", handler)`成员函数来注册`GET`，`POST`等的处理程序，或注册实现Web服务器路径作为成员函数的自定义*web接口*类：
 
     auto router = new URLRouter;
     router.registerWebInterface(new WebService);
@@ -31,6 +34,11 @@ will automatically be deduced using a simple scheme:
 * `getName()` will handle the `GET` request `/name`
 * `postUsername()` will handle to `POST` request
   to `/username`
+自定义Web接口`WebService`的成员函数的路径将自动使用简单的格式推导出来：
+* `index()`将处理`/index`
+* `getName()`将处理到`/name`的`GET`请求
+* `postUsername()`将处理到`/username`的`POST`请求
+
 
 Custom paths can be set by attributing a member
 function with a `@path("/hello/world")` attribute.
@@ -38,6 +46,8 @@ Parameters for `POST` requests will be made available
 to the function using `_` prefixed variable names. It is
 also possible to specify parameters directly
 in the path itself:
+自定义路径可以通过赋予成员函数`@path("/hello/world")`属性来设置。在函数中可以通过在变量名前加`_`前缀来访问`POST`请求的参数。
+也可以指定在路径中的参数：
 
     @path("/my/api/:id")
     void foo(int _id)
@@ -46,6 +56,8 @@ You don't need to pass `HTTPServerResponse` and
 `HTTPServerRequest` as parameter to each function.
 Vibe.d statically checks whether it is in a function's parameter list
 and just passes it if needed.
+你不需要将`HTTPServerResponse`和`HTTPServerRequest`作为参数传递给每个函数。
+Vibe.d会静态检查它是否在函数的参数列表中，并在需要时传递它。
 
 ## {SourceCode:disabled}
 
