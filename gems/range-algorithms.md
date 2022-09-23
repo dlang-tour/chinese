@@ -13,14 +13,13 @@ library.
 
 ### std.algorithm
 
-`filter` - Given a lambda as template parameter,
+`filter` - Given a lambda as the template parameter,
  generate a new range that filters elements:
 
-    filter!"a > 20"(range);
     filter!(a => a > 20)(range);
 
 `map` - Generate a new range using the predicate
- defined as template parameter:
+ defined as a template parameter:
 
     [1, 2, 3].map!(x => to!string(x));
 
@@ -44,7 +43,7 @@ ranges during iteration:
 `generate` - takes a function and creates a range
 which in turn calls it on each iteration, for example:
 
-    alias RandomRange = generate!(x => uniform(1, 1000));
+    alias RandomRange = generate!(() => uniform(1, 1000));
 
 `cycle` - returns a range that repeats the given input range
 forever.
@@ -65,8 +64,9 @@ forever.
 
 ```d
 // Hey come on, just get the whole army!
-import std.algorithm : canFind, map,
-  filter, sort, uniq, joiner, chunkBy, splitter;
+import std.algorithm : canFind, count, map,
+  filter, sort, uniq, 
+  joiner, chunkBy, splitter;
 import std.array : array, empty;
 import std.range : zip;
 import std.stdio : writeln;
@@ -75,9 +75,9 @@ import std.string : format;
 void main()
 {
     string text = q{This tour will give you an
-overview of this powerful and expressive systems
-programming language which compiles directly
-to efficient, *native* machine code.};
+overview of this powerful and expressive 
+systems programming language which compiles 
+directly to efficient, *native* machine code.};
 
     // splitting predicate
     alias pred = c => canFind(" ,.\n", c);
@@ -87,7 +87,7 @@ to efficient, *native* machine code.};
       .filter!(a => !a.empty);
 
     auto wordCharCounts = words
-      .map!"a.count";
+      .map!(a => a.count);
 
     // Output the character count
     // per word in a nice way
@@ -101,7 +101,8 @@ to efficient, *native* machine code.};
       // put all in one row that have the
       // same char count. chunkBy helps
       // us here by generating ranges
-      // of range that are chunked by the length
+      // of range that are chunked 
+      // by the length
       .chunkBy!(a => a[0])
       // those elments will be joined
       // on one line

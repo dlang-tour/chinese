@@ -4,40 +4,38 @@ D allows defining `interface`s which are technically like
 `class` types, but whose member functions must be implemented
 by any class inheriting from the `interface`.
 
-    interface Animal {
+    interface IAnimal {
         void makeNoise();
     }
 
-The `makeNoise` member function has to be implemented
+The `makeNoise` member function must be implemented
 by `Dog` because it inherits from the `Animal` interface.
 Essentially `makeNoise` behaves like an `abstract` member
 function in a base class.
 
-    class Dog : Animal {
-        override makeNoise() {
+    class Dog : IAnimal {
+        void makeNoise() {
             ...
         }
     }
 
-    auto dog = new Dog;
-    Animal animal = dog; // implicit cast to interface
+    IAnimal animal = new Dog(); // implicit cast to interface
     animal.makeNoise();
 
-The number of `interface`s a `class` can implement isn't limited,
-but it can inherit from only *one* base class.
+Although a class may only directly inherit from *one* base class,
+it may implement *any number* of interfaces.
 
 ### NVI (non virtual interface) pattern
 
 The [NVI pattern](https://en.wikipedia.org/wiki/Non-virtual_interface_pattern)
-prevents the violation of a common execution pattern by allowing _non virtual_ methods
-for a common interface.
-D easily enables the NVI pattern by
-allowing the definition of `final` functions in an `interface`
-that aren't allowed to be overridden. This enforces specific
-behaviours customized by overriding the other `interface`
-functions.
+allows _non virtual_ methods for a common interface.
+Thus, this pattern prevents the violation of a common execution pattern.
+D enables the NVI pattern by
+allowing `final` (i.e. non-overridable) functions in an `interface`.
+This enforces specific behaviours customized by overriding
+other abstract `interface` functions.
 
-    interface Animal {
+    interface IAnimal {
         void makeNoise();
         final doubleNoise() // NVI pattern
         {
@@ -56,19 +54,15 @@ functions.
 ```d
 import std.stdio : writeln;
 
-interface Animal {
-    /*
-    Virtual function
-    which needs to be overridden!
-    */
+interface IAnimal {
     void makeNoise();
 
     /*
     NVI pattern. Uses makeNoise internally
     to customize behaviour inheriting
     classes.
-    
-    Params: 
+
+    Params:
         n =  number of repetitions
     */
     final void multipleNoise(int n) {
@@ -78,22 +72,22 @@ interface Animal {
     }
 }
 
-class Dog: Animal {
-    override void makeNoise() {
+class Dog: IAnimal {
+    void makeNoise() {
         writeln("Woof!");
     }
 }
 
-class Cat: Animal {
-    override void makeNoise() {
+class Cat: IAnimal {
+    void makeNoise() {
         writeln("Meeoauw!");
     }
 }
 
 void main() {
-    Animal dog = new Dog;
-    Animal cat = new Cat;
-    Animal[] animals = [dog, cat];
+    IAnimal dog = new Dog;
+    IAnimal cat = new Cat;
+    IAnimal[] animals = [dog, cat];
     foreach(animal; animals) {
         animal.multipleNoise(5);
     }

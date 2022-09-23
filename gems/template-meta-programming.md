@@ -4,7 +4,7 @@ If you ever got in touch with *template meta programming*
 in C++ you will be relieved what tools D offers to make
 your life easier. Template meta programming is a technique
 that enables decision-making depending on template type properties
-and thus allows to make generic types even more flexible
+and thus allows generic types to be made even more flexible
 based on the type they are going to be instantiated with.
 
 ### `static if` & `is`
@@ -16,7 +16,7 @@ be evaluated at compile time:
     static if(is(T == int))
         writeln("T is an int");
     static if (is(typeof(x) :  int))
-        writeln("Variable x implicitely converts to int");
+        writeln("Variable x implicitly converts to int");
 
 The [`is` expression](http://wiki.dlang.org/Is_expression) is
 a generic helper that evaluates conditions at compile time.
@@ -102,7 +102,7 @@ private:
     /*
     Generator for getter and setter because
     we really hate boiler plate!
-    
+
     var -> T getVAR() and void setVAR(T)
     */
     mixin template GetterSetter(string var) {
@@ -139,8 +139,8 @@ public:
 void main()
 {
     auto vec = Vector3!double(3,3,3);
-    // That doesn't work because of the template
-    // constraint!
+    // That doesn't work because of 
+    // the template constraint!
     // Vector3!string illegal;
 
     auto vec2 = Vector3!double(4,4,4);
@@ -148,8 +148,8 @@ void main()
 
     auto vecInt = Vector3!int(1,2,3);
     // doesn't have the function dot because
-    // we statically enabled it only for float's
-    // vecInt.dot(Vector3!int(0,0,0));
+    // we statically enabled it only for
+    // float's vecInt.dot(Vector3!int(0,0,0));
 
     // generated getter and setters!
     vecInt.setX(3);

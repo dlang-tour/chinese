@@ -1,7 +1,7 @@
 # Structs
 
 One way to define compound or custom types in D is to
-define them through a `struct`:
+use a `struct`:
 
     struct Person {
         int age;
@@ -9,7 +9,7 @@ define them through a `struct`:
         float ageXHeight;
     }
 
-`struct`s are always constructed on the stack (unless created
+By default `struct`s are constructed on the stack (unless created
 with `new`) and are copied **by value** in assignments or
 as parameters to function calls.
 
@@ -29,11 +29,11 @@ can be explicitly accessed with `this`:
         }
             ...
 
-    Person p(30, 180); // initialization
+    Person p = Person(30, 180); // initialization
     p = Person(30, 180);  // assignment to new instance
 
-A `struct` might contain any number of member functions. These
-are by default `public` and accessible from the outside. They could
+A `struct` may contain any number of member functions. By default
+they are `public` and accessible from the outside. They could
 also be `private` and thus only be callable by other
 member functions of the same `struct`, or other code in the same
 module.
@@ -44,6 +44,7 @@ module.
         private void privateStuff() {
             ...
 
+    // In another module:
     p.doStuff(); // call method doStuff
     p.privateStuff(); // forbidden
 
@@ -69,7 +70,7 @@ design pattern implementations use `static`.
 
 Note that a `struct` can't inherit from another `struct`.
 Hierachies of types can only be built using classes,
-which we will see in a future section.
+which we will see in a later section.
 However, with `alias this` or `mixins` one can easily achieve
 polymorphic inheritance.
 
@@ -101,26 +102,15 @@ struct Vector3 {
 
     double length() const {
         import std.math : sqrt;
+        // TODO: 
+        // implement the length of Vector3
         return 0.0;
     }
 
     // rhs will be copied
     double dot(Vector3 rhs) const {
+        // TODO: implement the dot product
         return 0.0;
-    }
-
-    /**
-    Returns: representation of the string in the
-    special format. The output is restricted to
-    a precision of one!
-    "x: 0.0 y: 0.0 z: 0.0"
-    */
-    string toString() const {
-        import std.string : format;
-        // Hint: refer to the documentation of
-        // std.format to see how to influence
-        // output for floating point numbers.
-        return format("");
     }
 }
 
@@ -145,17 +135,5 @@ void main() {
 
     // 1 * 3 + 2 * 2 + 3 * 1
     assert(vec3.dot(Vector3(3, 2, 1)) == 10);
-
-    // Thanks to toString() we can now just
-    // output our vectors with writeln
-    import std.stdio : writeln, writefln;
-    writeln("vec1 = ", vec1);
-    writefln("vec2 = %s", vec2);
-
-    // Check the string representation
-    assert(vec1.toString() ==
-        "x: 10.0 y: 0.0 z: 0.0");
-    assert(vec2.toString() ==
-        "x: 0.0 y: 20.0 z: 0.0");
 }
 ```

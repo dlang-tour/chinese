@@ -58,17 +58,17 @@ shared static this()
     // is the TCP connection object to the
     // client.
     listenTCP(8080, (TCPConnection conn) {
-        string line;
-        conn.write("ECHO server says Hi!\r\n");
-        conn.write("Type 'quit' to close.\r\n");
-        while (line != "quit") {
-            line = cast(string) conn.readLine();
-            conn.write("ECHO: " ~ line
-              ~ "\r\n");
-        }
+      string line;
+      conn.write("ECHO server says Hi!\r\n");
+      conn.write("Type 'quit' to close.\r\n");
+      while (line != "quit") {
+          line = cast(string) conn.readLine();
+          conn.write("ECHO: " ~ line
+            ~ "\r\n");
+      }
 
-        // Just exiting the delegate here
-        // will close the client's connection.
+      // Just exiting the delegate here
+      // will close the client's connection.
     });
 }
 ```

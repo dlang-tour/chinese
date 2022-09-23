@@ -35,7 +35,7 @@ units](http://unicode.org/glossary/#code_unit). All array operations can be
 used on strings, but they will work on a code unit level, and not a character level. At
 the same time, standard library algorithms will interpret `string`s as sequences
 of [code points](http://unicode.org/glossary/#code_point), and there is also an
-option to treat them as sequence of
+option to treat them as sequences of
 [graphemes](http://unicode.org/glossary/#grapheme) by explicit usage of
 [`std.uni.byGrapheme`](https://dlang.org/library/std/uni/by_grapheme.html).
 
@@ -66,26 +66,33 @@ rely on standard library algorithms to do the right job.
 If by element (code unit) iteration is desired, one can use
 [`byCodeUnit`](http://dlang.org/phobos/std_utf.html#.byCodeUnit).
 
-Auto-decoding in D is explained in more details
+Auto-decoding in D is explained in more detail
 in the [Unicode gems chapter](gems/unicode).
 
 ### Multi-line strings
 
-To create multi-line strings, use the `string str = q{ ... }` syntax.
+Strings in D can always span over multiple lines:
 
-    string multiline = q{ This
-        may be a
-        long document
-    };
+    string multiline = "
+    This
+    may be a
+    long document
+    ";
 
-### Raw strings
+When quotes appear in the document, Wysiwyg strings (see below) or
+[heredoc strings](http://dlang.org/spec/lex.html#delimited_strings) can be used.
+
+### Wysiwyg strings
 
 It is also possible to use raw strings to minimize laborious escaping
 of reserved symbols. Raw strings can be declared using either backticks (`` `
 ... ` ``) or the r(aw)-prefix (`r" ... "`).
 
     string raw  =  `raw "string"`; // raw "string"
-    string raw2 = r"raw "string""; // raw "string"
+    string raw2 = r"raw `string`"; // raw `string`
+
+D provides even more ways to represent strings - don't hesitate
+to [explore](https://dlang.org/spec/lex.html#string_literals) them.
 
 ### In-depth
 
@@ -94,6 +101,7 @@ of reserved symbols. Raw strings can be declared using either backticks (`` `
 - [Strings in _Programming in D_](http://ddili.org/ders/d.en/strings.html)
 - [std.utf](http://dlang.org/phobos/std_utf.html) - UTF en-/decoding algorithms
 - [std.uni](http://dlang.org/phobos/std_uni.html) - Unicode algorithms
+- [String Literals in the D spec](http://dlang.org/spec/lex.html#string_literals)
 
 ## {SourceCode}
 
@@ -119,8 +127,8 @@ void main() {
         str.byGrapheme.walkLength);
 
     // Strings are just normal arrays, so any
-    // operation that works on arrays works here
-    // too!
+    // operation that works on arrays works 
+    // here too!
     import std.array : replace;
     writeln(replace(str, "lö", "lo"));
     import std.algorithm : endsWith;

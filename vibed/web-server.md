@@ -56,9 +56,10 @@ class WebService
 {
     /*
     Using session variables such as this one,
-    information associated with individual users
-    can be persisted throughout all requests
-    for the duration of each user's session.
+    information associated with individual 
+    users can be persisted throughout
+    all requests for the duration of 
+    each user's session.
     */
     private SessionVar!(string, "username")
         username_;
@@ -85,9 +86,10 @@ class WebService
     }
 
     /*
-    The @path attribute can be used to customize
-    url routing. Here requests to "/name"
-    will be mapped to the getName method.
+    The @path attribute can be used to 
+    customize url routing. 
+    Here requests to "/name" will be mapped 
+    to the getName method.
     */
     @path("/name")
     void getName(HTTPServerRequest req,
@@ -142,10 +144,11 @@ void helloWorld(HTTPServerRequest req,
     res.writeBody("Hello");
 }
 
-shared static this()
+void main()
 {
     auto router = new URLRouter;
-    router.registerWebInterface(new WebService);
+    router.registerWebInterface(
+        new WebService);
     router.get("/hello", &helloWorld);
 
     auto settings = new HTTPServerSettings;
@@ -154,5 +157,6 @@ shared static this()
         new MemorySessionStore;
     settings.port = 8080;
     listenHTTP(settings, router);
+    runApplication();
 }
 ```

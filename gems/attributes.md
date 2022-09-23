@@ -4,9 +4,13 @@ Functions can be attributed in various ways in D.
 Let's have a look at two built-in attributes
 as well as *user-defined attributes*. There
 are also the built-ins `@safe`, `@system` and `@trusted`
-which have been mentioned in the first chapter.
+mentioned in the first chapter.
 
 ### `@property`
+
+Properties are functions that can be syntactically treated as if they were fields or variables.
+Properties can be read from or written to.
+A property is read by calling a method or function with no arguments; a property is written by calling a method or function with its argument being the value it is set to.
 
 A function marked as `@property` looks like
 a normal member to the outside world:
@@ -15,7 +19,7 @@ a normal member to the outside world:
         @property bar() { return 10; }
         @property bar(int x) { writeln(x); }
     }
-    
+
     Foo foo;
     writeln(foo.bar); // actually calls foo.bar()
     foo.bar = 10; // calls foo.bar(10);
@@ -40,7 +44,7 @@ Any function or type in D can be attributed with user-defined
 types:
 
     struct Bar { this(int x) {} }
-    
+
     struct Foo {
       @("Hello") {
           @Bar(10) void foo() {
@@ -56,9 +60,9 @@ and `Bar` (type `Bar` with value `10`). To get
 the attributes of a function (or type) use
 the built-in compiler *traits*
 `__traits(getAttributes, Foo)` which returns
-a [`TypeTuple`](https://dlang.org/phobos/std_typetuple.html).
+an [`AliasSeq`](https://dlang.org/phobos/std_meta.html#AliasSeq).
 
-UDAs allow to enhance generic code by giving user-defined
+UDAs allow generic code to be enhanced by giving user-defined
 types another dimension that helps compile time
 generators to adapt to that specific type.
 
