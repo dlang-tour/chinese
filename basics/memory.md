@@ -1,6 +1,6 @@
-# 内存管理
+# Memory 内存管理
 
-D 是一门系统级编程语言，所以它允许手动内存管理。但是手动内存管理十分容易出错，所以默认情况下，D 采用 *垃圾回收器* 来管理内存。
+D 是一门系统级编程语言，所以它允许手动内存管理。但是手动内存管理十分容易出错，所以默认情况下，D 采用 *garbage collector 垃圾回收器* 来管理内存。
 
 像 C 一样，D 提供指针类型 `T*`：
 
@@ -34,7 +34,7 @@ D 有三种功能不同的安全等级： `@system`, `@trusted` 以及 `@safe`�
 
 `@trusted` 函数提供了对代码安全性手动验证的能力，这为 SafeD 与肮脏的低级世界间建立起了一座桥梁。
 
-### 神UR
+### 深入了解
 
 * [SafeD](https://dlang.org/safed.html)
 
@@ -46,7 +46,7 @@ import std.stdio : writeln;
 void safeFun() @safe
 {
     writeln("Hello World");
-    // 使用 new 分配内存是安全的
+    // new 使用 GC 分配内存是安全的
     int* p = new int;
 }
 
