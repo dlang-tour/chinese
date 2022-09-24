@@ -45,9 +45,9 @@
 
 ### 深入了解
 
-- [_D程序设计_ 函数](http://ddili.org/ders/d.en/functions.html)
+- [ _D程序设计_ 函数](http://ddili.org/ders/d.en/functions.html)
 - [ _D程序设计_ 函数参数](http://ddili.org/ders/d.en/function_parameters.html)
-- [函数规范](https://dlang.org/spec/function.html)
+- [Function specification](https://dlang.org/spec/function.html)
 
 ## {SourceCode}
 

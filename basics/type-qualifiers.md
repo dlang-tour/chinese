@@ -43,8 +43,8 @@ API 常常接受 `const` 参数，以确保它们不修改输入的对象。这�
 
 #### 基本参考
 
-- [_D 程序设计中的_ 不可变](http://ddili.org/ders/d.en/const_and_immutable.html)
-- [_D 程序设计中的_ 作用域](http://ddili.org/ders/d.en/name_space.html)
+- [_D 程序设计_ 不可变](http://ddili.org/ders/d.en/const_and_immutable.html)
+- [_D 程序设计_ 作用域](http://ddili.org/ders/d.en/name_space.html)
 
 #### 进阶参考
 
