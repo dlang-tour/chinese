@@ -1,17 +1,12 @@
-# Interfaces
+# Interfaces 接口
 
-D allows defining `interface`s which are technically like
-`class` types, but whose member functions must be implemented
-by any class inheriting from the `interface`.
+D 允许定义 `interface` 接口，技术上来说像是一个 `class` 类型，但是任何继承它的类必须实现它的成员函数。
 
     interface IAnimal {
         void makeNoise();
     }
 
-The `makeNoise` member function must be implemented
-by `Dog` because it inherits from the `Animal` interface.
-Essentially `makeNoise` behaves like an `abstract` member
-function in a base class.
+`makeNoise` 成员函数必须被继承自`IAnimal` 的 `Dog` 类实现。本质上 `makeNoise` 就像基类里面的 `abstract` 抽象成员函数。
 
     class Dog : IAnimal {
         void makeNoise() {
@@ -19,35 +14,32 @@ function in a base class.
         }
     }
 
-    IAnimal animal = new Dog(); // implicit cast to interface
+    IAnimal animal = new Dog(); // 隐式转换成接口
     animal.makeNoise();
 
-Although a class may only directly inherit from *one* base class,
-it may implement *any number* of interfaces.
+尽管一个类只能直接继承自一个基类，但是可以实现任意数量的接口。
 
-### NVI (non virtual interface) pattern
+### NVI (non virtual interface) 非虚拟接口模式
 
-The [NVI pattern](https://en.wikipedia.org/wiki/Non-virtual_interface_pattern)
-allows _non virtual_ methods for a common interface.
-Thus, this pattern prevents the violation of a common execution pattern.
-D enables the NVI pattern by
-allowing `final` (i.e. non-overridable) functions in an `interface`.
-This enforces specific behaviours customized by overriding
-other abstract `interface` functions.
+[NVI 模式](https://en.wikipedia.org/wiki/Non-virtual_interface_pattern)
+允许公共的接口是一个 _non virtual 非虚函数_。因此，该模式可以防止违反公共执行模式。
+D 通过在接口中使用 `final` 函数来启用 NVI 模式。这将执行特定通过子类重写的其他抽象`interface`接口函数。
 
     interface IAnimal {
         void makeNoise();
-        final doubleNoise() // NVI pattern
+        final doubleNoise() // NVI 模式
         {
             makeNoise();
             makeNoise();
         }
     }
 
-### In-depth
+译者注：虚函数是 C++ 中被 `virtual` 修饰的函数，通过虚函数表可以在基类指针或引用上调用子类方法，[virtual 函数说明符](https://zh.cppreference.com/w/cpp/language/virtual)，可引申为需要被子类重写的函数。这里的虚函数实际上就是指的前文的接口函数。
 
-- [Interfaces in _Programming in D_](http://ddili.org/ders/d.en/interface.html)
-- [Interfaces in D](https://dlang.org/spec/interface.html)
+### 深入了解
+
+- [_D 程序设计_ 接口](http://ddili.org/ders/d.en/interface.html)
+- [Interfaces spec](https://dlang.org/spec/interface.html)
 
 ## {SourceCode}
 
@@ -58,12 +50,11 @@ interface IAnimal {
     void makeNoise();
 
     /*
-    NVI pattern. Uses makeNoise internally
-    to customize behaviour inheriting
-    classes.
+    NVI 模式，
+    使用由继承子类重写的 makeNoise 函数
 
-    Params:
-        n =  number of repetitions
+    参数:
+        n =  重复次数
     */
     final void multipleNoise(int n) {
         for(int i = 0; i < n; ++i) {
@@ -74,13 +65,13 @@ interface IAnimal {
 
 class Dog: IAnimal {
     void makeNoise() {
-        writeln("Woof!");
+        writeln("汪汪汪！");
     }
 }
 
 class Cat: IAnimal {
     void makeNoise() {
-        writeln("Meeoauw!");
+        writeln("喵喵喵！");
     }
 }
 
