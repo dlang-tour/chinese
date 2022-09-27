@@ -1,54 +1,49 @@
-# Ranges
+# Ranges 范围
 
-If a `foreach` is encountered by the compiler
+一个 `foreach` 被编译器处理后
 
 ```
 foreach (element; range)
 {
-    // Loop body...
+    // 循环体...
 }
 ```
 
-it's internally rewritten similar to the following:
+内部将重写成类似于以下内容：
 
 ```
 for (auto __rangeCopy = range;
-     !__rangeCopy.empty;
-     __rangeCopy.popFront())
+        !__rangeCopy.empty;
+        __rangeCopy.popFront())
  {
-    auto element = __rangeCopy.front;
-    // Loop body...
+    auto element = __rangeCopy.front;
+    // 循环体...
+}
+```
+任何满足以下接口的对象被称为 **range 范围**（或者具体称为 `InputRange`），它是一个可以迭代的类型：
+
+```
+interface InputRange(E)
+{
+    bool empty();
+    E front();
+    void popFront();
 }
 ```
 
-Any object which fulfills the following interface is called a **range**
-(or more specific `InputRange`) and is thus a type that can be iterated over:
+查看右边的例子，InputRange 的具体实现和使用。
 
-```
-    interface InputRange(E)
-    {
-        bool empty();
-        E front();
-        void popFront();
-    }
-```
+## Laziness 惰性求值
 
-Have a look at the example on the right to inspect the implementation and usage
-of an input range closer.
-
-## Laziness
-
-Ranges are __lazy__. They won't be evaluated until requested.
-Hence, a range from an infinite range can be taken:
+范围是 __惰性__ 的。非必要不会对他们进行计算。所以可以对范围取无穷值：
 
 ```d
 42.repeat.take(3).writeln; // [42, 42, 42]
 ```
 
-## Value vs. Reference types
+## 值 vs 引用
 
-If the range object is a value type, then range will be copied and only the copy
-will be consumed:
+如果范围的内容是值类型，则范围会复制并且只使用副本：
 
 ```d
 auto r = 5.iota;
@@ -56,8 +51,7 @@ r.drop(5).writeln; // []
 r.writeln; // [0, 1, 2, 3, 4]
 ```
 
-If the range object is a reference type (e.g. `class` or [`std.range.refRange`](https://dlang.org/phobos/std_range.html#refRange)),
-then the range will be consumed and won't be reset:
+如果范围的内容是引用类型（比如：`class` 或者 [`std.range.refRange`](https://dlang.org/phobos/std_range.html#refRange)），则范围会被消费掉并且不会重置：
 
 ```d
 auto r = 5.iota;
@@ -66,12 +60,9 @@ r2.drop(5).writeln; // []
 r2.writeln; // []
 ```
 
-### Copyable `InputRanges` are `ForwardRanges`
+### 可复制的 `InputRanges` 范围 `ForwardRanges`
 
-Most of the ranges in the standard library are structs and so `foreach`
-iteration is usually non-destructive, though not guaranteed. If this
-guarantee is important, a specialization of an `InputRange` can be used—
-**forward** ranges with a `.save` method:
+大部分标准库的范围都是结构体，所以每次 `foreach` 通常都是带破坏性的，所以是没有保障的。如果这个保障很重要的话，`InputRange` 可以专门化为 **forward 转发** 范围，包含一个 `.save` 方法：
 
 ```
 interface ForwardRange(E) : InputRange!E
@@ -88,11 +79,11 @@ r2.save.drop(5).writeln; // []
 r2.writeln; // [0, 1, 2, 3, 4]
 ```
 
-### `ForwardRanges` can be extended to Bidirectional ranges + random access ranges
+### `ForwardRanges` 可以被扩展到 Bidirectional 双向 + random access 随机访问范围
 
-There are two extensions of the copyable `ForwardRange`: (1) a bidirectional range
-and (2) a random access range.
-A bidirectional range allows iteration from the back:
+可复制的 `ForwardRange` 有两种扩展：双向范围、随机访问范围。
+
+双向范围允许从后面迭代：
 
 ```d
 interface BidirectionalRange(E) : ForwardRange!E
@@ -106,7 +97,7 @@ interface BidirectionalRange(E) : ForwardRange!E
 5.iota.retro.writeln; // [4, 3, 2, 1, 0]
 ```
 
-A random access range has a known `length` and each element can be directly accessed.
+随机访问范围有一个已知的 `length` 长度，并且每一个元素都可以直接访问：
 
 ```d
 interface RandomAccessRange(E) : ForwardRange!E
@@ -116,26 +107,19 @@ interface RandomAccessRange(E) : ForwardRange!E
 }
 ```
 
-The best known random access range is D's array:
+D 的数组实际上就是随机访问范围：
 
 ```d
 auto r = [4, 5, 6];
 r[1].writeln; // 5
 ```
 
-### Lazy range algorithms
+### 惰性范围算法
 
-The functions in [`std.range`](http://dlang.org/phobos/std_range.html) and
-[`std.algorithm`](http://dlang.org/phobos/std_algorithm.html) provide
-building blocks that make use of this interface. Ranges enable the
-composition of complex algorithms behind an object that
-can be iterated with ease. Furthermore, ranges enable the creation of **lazy**
-objects that only perform a calculation when it's really needed
-in an iteration e.g. when the next range's element is accessed.
-Special range algorithms will be presented later in the
-[D's Gems](gems/range-algorithms) section.
+[`std.range`](http://dlang.org/phobos/std_range.html) 和
+[`std.algorithm`](http://dlang.org/phobos/std_algorithm.html) 提供了该接口的函数。范围允许在对象后自由组合复杂的迭代算法。此外，范围允许创建 **惰性** 对象，只在迭代真正需要时计算，例如：当下一个范围元素被访问时。特殊的范围算法将在后面的[D's Gems](gems/range-algorithms) 章节中呈现。
 
-### In-depth
+### 深入了解
 
 - [`std.algorithm`](http://dlang.org/phobos/std_algorithm.html)
 - [`std.range`](http://dlang.org/phobos/std_range.html)
@@ -145,21 +129,22 @@ Special range algorithms will be presented later in the
 ```d
 import std.stdio : writeln;
 
+// 斐波那契
 struct FibonacciRange
 {
-    // States of the Fibonacci generator
+    // 斐波那契状态生成器
     int a = 1, b = 1;
 
-    // The fibonacci range never ends
+    // 斐波那契不会结束
     enum empty = false;
 
-    // Peek at the first element
+    // 获取第一个斐波那契数
     int front() const @property
     {
         return a;
     }
 
-    // Remove the first element
+    // 删除第一个斐波那契数
     void popFront()
     {
         auto t = a;
@@ -176,22 +161,22 @@ void main()
     import std.algorithm.iteration :
         filter, sum;
 
-    // Select the first 10 fibonacci numbers
+    // 获取前 10 个斐波那契数
     auto fib10 = fib.take(10);
     writeln("Fib 10: ", fib10);
 
-    // Except the first five
+    // 去除前 5 个
     auto fib5 = fib10.drop(5);
     writeln("Fib 5: ", fib5);
 
-    // Select the even subset
+    // 选择偶数子集
     auto even = fib5.filter!(x => x % 2 == 0);
     writeln("FibEven : ", even);
 
-    // Sum of all elements
+    // 求和
     writeln("Sum of FibEven: ", even.sum);
 
-    // Usually this is summarized as:
+    // 通常将其结合使用：
     fib.take(10)
          .drop(5)
          .filter!(x => x % 2 == 0)
