@@ -74,10 +74,12 @@ void main()
 void parse(Conf)(ref Conf c, string entry)
 {
     auto r = entry.splitter("=");
-    auto key = r.front, value = r.dropOne.front;
+    auto key = r.front;
+    auto value = r.dropOne.front;
     Switch: switch (key)
     {
-        static foreach(idx, field; Conf.tupleof)
+        static foreach(idx, field; 
+            Conf.tupleof)
         {
             case field.stringof:
                 c.tupleof[idx] =
