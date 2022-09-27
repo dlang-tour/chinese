@@ -1,7 +1,7 @@
-# 数组
+# Arrays 数组
 
 在D语言中，数组有两种类型: **静态** 和 **动态**.
-对任何类型数组的访问都需要经过边界检查（除非编译器可以证明不需要边界检查）。失败的边界检查会产生一个“RangeError”，它会中止应用程序。胆大的人可以通过编译器标志`-boundschecks=off`禁用此安全功能，从而牺牲安全为代价来提高速度。
+对任何类型数组的访问都需要经过边界检查（除非编译器可以证明不需要边界检查）。失败的边界检查会产生一个 `RangeError` ，它会中止应用程序。胆大的人可以通过编译器标志 `-boundschecks=off` 禁用此安全功能，从而牺牲安全为代价来提高速度。
 
 #### 静态数组
 
@@ -9,23 +9,22 @@
 
     int[8] arr;
 
-`arr`的类型是 `int[8]`. 注意，数组的长度声明在类型之后, 而不是像C/C++那样在变量名之后。
+`arr`的类型是 `int[8]` 。 注意，数组的长度声明在类型之后, 而不是像C/C++那样在变量名之后。
 
 #### 动态数组
 
-动态数组存储在堆上并且在运行时可以扩展或缩小。 动态数组和它的长度使用表达式 `new` 来创建。
+动态数组存储在堆上并且在运行时可以扩展或缩小。动态数组和它的长度使用表达式 `new` 来创建。
 
     int size = 8; // 运行时变量
     int[] arr = new int[size];
 
-变量 `arr` 的类型是 `int[]`, 这是一个切片 **切片**. 切片将在[下一节](basics/slices)进行更详细的解释。多维的数组可以使用 `auto arr = new int[3][3]` 语法来轻松地创建.
+变量 `arr` 的类型是 `int[]`, 这是一个 **slice 切片**. 切片将在[下一节](basics/slices)进行更详细的解释。多维的数组可以使用 `auto arr = new int[3][3]` 语法来轻松地创建。
 
 #### 数组运算和属性
 
 数组可以使用 `~` 运算符连接起来，它将创建一个新的动态数组。
 
-例如，数学运算可以使用像 `c[] = a[] + b[]` 这样的语法应用于整个数组。
-这将添加 `a` 和 `b` 数组的所有元素，使得 `c[0] = a[0] + b[0]`、`c[1] = a[1] + b[1]` 等。 也可以使用单个值对整个数组执行操作：
+数学运算可以使用像 `c[] = a[] + b[]` 这样的语法应用于整个数组，这样就将 `a` 和 `b` 数组的所有元素相加，使得 `c[0] = a[0] + b[0]`、`c[1] = a[1] + b[1]` 等。 也可以使用单个值对整个数组执行操作：
 
     a[] *= 2; // 所有元素乘以2
     a[] %= 26; // 所有元素取模26
@@ -38,31 +37,33 @@
 
 ### 练习
 
-完成函数`encrypt`来解密秘密消息。 文本使用 *凯撒加密法 * 加密，它使用特定索引移动字母表中的字符。 待加密的文本仅包含 `a-z` 范围内的字符，这应该会更容易一些。
+完成函数`encrypt`来加密消息。 文本使用 *凯撒加密法* 加密，它使用特定索引移动字母表中的字符。 待加密的文本仅包含 `a-z` 范围内的字符，这应该会更容易一些。
 
 ### 深入了解
 
-- [_D_ 语言中的数组](http://ddili.org/ders/d.en/arrays.html)
-- [数组规范](https://dlang.org/spec/arrays.html)
+- [_D 程序设计_ 数组](http://ddili.org/ders/d.en/arrays.html)
+- [D 切片](https://dlang.org/articles/d-array-article.html)
+- [Array specification](https://dlang.org/spec/arrays.html)
 
-## {源代码:不完整}
+## {SourceCode:incomplete}
 
 ```d
 import std.stdio : writeln;
 
 /**
-将数组 `input` 中的每个字符移动 `shift` 字符。 字符范围限制为`a-z`，z 之后的下一个字符是a。
+将数组 `input` 中的每个字符移动 `shift` 字符。
+字符范围限制为`a-z`，z 之后的下一个字符是a。
 
-参数:
+参数：
     input = 待移动的数组
     shift = 每个字符移动的位数
-返回:
+返回：
     移动后的数组
 */
 char[] encrypt(char[] input, char shift)
 {
     auto result = input.dup;
-    // ...
+    // TODO：移动每一个字符
     return result;
 }
 
@@ -75,7 +76,8 @@ void main()
       // 这种写法是没问题的，最后一个逗号将被忽略
     ];
     writeln("Before: ", toBeEncrypted);
-    auto encrypted = encrypt(toBeEncrypted, 16);
+    auto encrypted 
+        = encrypt(toBeEncrypted, 16);
     writeln("After: ", encrypted);
 
     // 确保我们的算法和预期一样
