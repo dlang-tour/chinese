@@ -6,7 +6,7 @@ is purely a **compile-time** mechanism and can only work
 on strings available during compilation - a comparison
 with the evil JavaScript `eval` would be highly unfair.
 
-    mixin("int b = 5");
+    mixin("int b = 5;");
     assert(b == 5); // compiles just fine
 
 `mixin` also works with strings that are constructed
@@ -20,8 +20,7 @@ a grammar parser from a grammar defined as a string
 in the source code.
 
 ### In-depth
-
-- [Mixins in D](https://dlang.org/spec/template-mixin.html)
+- [String Mixins in D](https://dlang.org/spec/expression.html#mixin_expressions)
 
 ## {SourceCode}
 
@@ -40,9 +39,13 @@ void main()
 
     // pass the operation to perform as a
     // template parameter.
-    writeln("5 + 12 = ", calculate!"+"(5,12));
-    writeln("10 - 8 = ", calculate!"-"(10,8));
-    writeln("8 * 8 = ", calculate!"*"(8,8));
-    writeln("100 / 5 = ", calculate!"/"(100,5));
+    writeln("5 + 12 = ", 
+        calculate!"+"(5,12));
+    writeln("10 - 8 = ", 
+        calculate!"-"(10,8));
+    writeln("8 * 8 = ", 
+        calculate!"*"(8,8));
+    writeln("100 / 5 = ", 
+        calculate!"/"(100,5));
 }
 ```

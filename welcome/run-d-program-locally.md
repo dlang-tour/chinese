@@ -17,13 +17,13 @@ D 附带了一个编译器 `dmd`，一个脚本化的运行工具 `rdmd` 以及�
 
     rdmd hello.d
 
-在 Unix 系统上，我们可以以 [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) 行作为可执行的 D 文件的首行，这样我们就能通过执行脚本的方式来执行 D 程序了。
+在 UNIX 系统上，我们可以以 [Shebang/Hashbang](https://zh.wikipedia.org/wiki/Shebang) 行作为可执行的 D 文件的首行，这样我们就能通过执行脚本的方式来执行 D 程序了。
 
 想要了解更多 `rdmd` 命令的可用选项，请浏览 [在线文档](https://dlang.org/rdmd.html) 或者在命令行中运行 `rdmd --help` 。
 
 ### `dub` 包管理器
 
-D 的标准包管理器是 [`dub`](http://code.dlang.org)。在 `dub` 在本地安装后，我们能通过以下的命令来创建一个新项目：
+D 的标准包管理器是 [`dub`](http://code.dlang.org)。安装好 `dub` 后，可以通过以下的命令来创建一个新项目：
 
     dub init hello
 

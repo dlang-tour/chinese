@@ -1,11 +1,10 @@
 # Contract programming
 
-Contract programming in D includes a set of language constructs
-that allow increasing the code quality by implementing
-sanity checks that make sure that the code base
-behaves as intended. Contracts are only available in
-**debug** mode and won't be run in release mode.
-Therefore they shouldn't be used to validate user input.
+Contract programming in D includes a set of language constructs that allow increasing the code quality
+by implementing sanity checks that make sure that the code base behaves as intended.
+Contracts are compiled and executed when the software is built for testing or debugging.
+In release builds (enabled by the **-release** switch for DMD) they are completely omitted by the compiler,
+therefore they shouldn't be used to validate user input or as an alternative to using exceptions.
 
 ### `assert`
 
@@ -20,8 +19,8 @@ an `AssertionError` otherwise.
 
 ### Function contracts
 
-`in` and `out` allow to formalize contracts for input
-parameters and return values of functions.
+`in` and `out` allow contracts to be formalized for input
+parameters and the return values of functions.
 
     long square_root(long x)
     in {
@@ -29,7 +28,7 @@ parameters and return values of functions.
     } out (result) {
         assert((result * result) <= x
             && (result+1) * (result+1) > x);
-    } body {
+    } do {
         return cast(long)std.math.sqrt(cast(real)x);
     }
 
@@ -54,7 +53,7 @@ state during its whole lifetime:
 ### Validating user input
 
 As all contracts will be removed in the release build, user input should not
-be checked using contracts. Moreover `assert`s can still be used be in
+be checked using contracts. Moreover `assert`s can still be used in
 `nothrow` functions, because they throw fatal `Errors`.
 The runtime analog to `assert` is [`std.exception.enforce`](https://dlang.org/phobos/std_exception.html#.enforce),
 which will throw catchable `Exceptions`.
@@ -98,17 +97,17 @@ struct Date {
     /**
     Serializes Date object from a
     YYYY-MM-DD string.
-    
+
     Params:
         date = string to be serialized
-        
+
     Returns: Date object.
     */
     void fromString(string date)
     in {
         assert(date.length == 10);
     }
-    body {
+    do {
         import std.format : formattedRead;
         // formattedRead parses the format
         // given and writes the result to the
@@ -138,7 +137,7 @@ struct Date {
                     .equal([4, 2, 2]));
         assert(parts.all!isNumeric);
     }
-    body {
+    do {
         import std.format : format;
         return format("%.4d-%.2d-%.2d",
                       year, month, day);
@@ -149,7 +148,8 @@ void main() {
     auto date = Date(2016, 2, 7);
 
     // This will make invariant fail.
-    // Don't validate user input with contracts,
+    // Don't validate user input 
+    // with contracts,
     // throw exceptions instead.
     date.fromString("2016-13-7");
 

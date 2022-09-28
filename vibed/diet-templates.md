@@ -4,7 +4,7 @@ To make writing web pages easier vibe.d supports
 [DIET templates](https://vibed.org/templates/diet)
 which is a simplified syntax to write HTML pages.
 DIET is based on
-[Jade templates](http://jade-lang.com/).
+[Pug/Jade templates](https://pugjs.org/).
 
     doctype html
     html(lang="en")
@@ -15,7 +15,7 @@ DIET is based on
         script(type='text/javascript')
           if (foo) bar(1 + 5)
         // ID = body-id
-        // style = the-style
+        // class = the-style
         body#body-id.the-style
           h1 DIET template
 
@@ -40,14 +40,17 @@ output final HTML.
 DIET templates are compiled using **CTFE**
 and have to reside in the `views` folder
 in a standard vibe.d project. To actually render
-a DIET template use the `render` function within
-an URL handler:
+a DIET template use the `render` function on a
+`HTTPServerResponse` object:
 
     void foo(HTTPServerResponse res) {
         string pageTitle = "Hello";
         int test = 10;
         res.render!("my-template.dt", pageTitle, test);
     }
+
+In a web interface you would use the global `render`
+method instead.
 
 All D variables available to a DIET template
 are passed as template parameters to `render`.

@@ -6,7 +6,7 @@ heavy optimizations can be achieved.
 
 ## Explicit contracts
 
-Traits allow to specify explicitly what input is accepted.
+Traits allow the accepted input to be explicitly specified.
 For example `splitIntoWords` can operate on any arbitrary string type:
 
 ```d
@@ -28,7 +28,7 @@ will be analyzed:
 
 ```d
 auto commonPrefix(alias pred = "a == b", R1, R2)(R1 r1, R2 r2)
-if (isForwardRange!R1
+if (isForwardRange!R1 &&
     isInputRange!R2 &&
     is(typeof(binaryFun!pred(r1.front, r2.front)))) &&
     !isNarrowString!R1)
@@ -43,15 +43,15 @@ This means that the function is only callable and thus compiles if:
 
 ### Specialization
 
-Many APIs aim to be general-purpose, however they don't want to pay with extra
-runtime for this generalization.
+Many APIs aim to be general-purpose, however we want to avoid any extra
+runtime cost for the convenience of this generalization.
 With the power of introspection and CTFE, it is possible to specialize a method
-on compile-time to achieve the best performance given the input types.
+at compile-time to achieve the best performance given the input types.
 
 A common problem is that in contrast to arrays you might not know the exact length
 of a stream or list before walking through it.
 Hence a simple implementation of the `std.range` method `walkLength`
-which generalizes for any iterable type would be:
+which can be substituted for any iterable type would be:
 
 ```d
 static if (hasMember!(r, "length"))
@@ -130,7 +130,8 @@ Returns:
 A slice of r1 which contains the characters
 that both ranges start with.
  */
-auto commonPrefix(alias pred = "a == b", R1, R2)
+auto commonPrefix(alias pred = "a == b",
+                         R1, R2)
                  (R1 r1, R2 r2)
 if (isForwardRange!R1 && isInputRange!R2 &&
     !isNarrowString!R1 &&
@@ -161,7 +162,8 @@ if (isForwardRange!R1 && isInputRange!R2 &&
         size_t i = 0;
         for (;
              !r1.empty && !r2.empty &&
-             binaryFun!pred(r1.front, r2.front);
+             binaryFun!pred(r1.front,
+                            r2.front);
              ++i, r1.popFront(), r2.popFront())
         {}
         return takeExactly(result, i);

@@ -1,4 +1,4 @@
-# 基本类型
+# Basic types 基本类型
 
 D 提供了很多基本类型，基本类型的大小**与平台无关**。唯一的例外是 `real` 类型表示平台提供的最高精度的浮点数类型。无论是使用 32 位的系统还是 64 位的系统编译，整数类型的大小总是不变的。
 
@@ -27,9 +27,9 @@ UTF-8 码元, `wchar` 类型用于 UTF-16 字符串，而 `dchar` 用于 UTF-32 
 
 可以使用特殊关键字 `auto` 来创建一个变量，变量的类型会被推断为右侧的初始化表达式的类型。例如，`auto myVar = 7`中，`myVar` 的类型会被推断为 `int`。请注意，使用 `auto` 声明变量显式写出变量类型进行声明是一样的，变量的类型在编译时被确定的，而不能够被更改。
 
-### 类型属性
+### Type properties 类型属性
 
-所有的数据类型都具有表示该类型初始值的 `.init` 属性，所有整数类型的 `.init` 属性的值都为 `0`，而浮点数为 `nan` (*not a number*).
+所有的数据类型都具有表示该类型初始值的 `.init` 属性，所有整数类型的 `.init` 属性的值都为 `0`，而浮点数为 `nan` (*not a number 非数字*).
 
 整数以及浮点数类型具有表示该类型最大值的 `.max` 属性。
 整数类型也具有表示该类型最小值的 `.min` 属性，而浮点数类型都具有被定义为该类型非0的最小可表示的常规值的 `.min_normal` 属性。
@@ -44,7 +44,7 @@ UTF-8 码元, `wchar` 类型用于 UTF-16 字符串，而 `dchar` 用于 UTF-32 
 
 在 D 中，索引的类型通常为别名类型 `size_t`，因为这个类型足够大，可以用来表示所有可寻址内存的偏移量 - 在 32 位架构中它为 `uint`，在 64 为架构中它为 `ulong`。
 
-### 断言
+### Assert 断言
 
 `assert` 是在调试模式下验证条件，并在失败时抛出 `AssertionError` 错误终止程序的表达式。
 `assert(0)` 用来标记不可达的代码。
@@ -75,8 +75,9 @@ void main()
 {
     // 大数字字面值可以用"_"分开以提高可读性。
     int b = 7_000_000;
-    short c = cast(short) b; // cast needed
-    uint d = b; // fine
+    // 大到小转换需要 cast
+    short c = cast(short) b; 
+    uint d = b; // 小到大 ok
     int g;
     assert(g == 0);
 
@@ -84,7 +85,7 @@ void main()
 
     // typeid(VAR) 返回一个表达式的类型信息。
     writeln("type of f is ", typeid(f));
-    double pi = f; // fine
+    double pi = f; // ok
     // 浮点数允许窄化隐式类型转换。
     float demoted = pi;
 

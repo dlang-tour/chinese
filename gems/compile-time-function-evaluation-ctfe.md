@@ -25,12 +25,12 @@ it, and the same code can perfectly be shared:
     auto val = sqrt(n);
 
 One prominent example in D is the [std.regex](https://dlang.org/phobos/std_regex.html)
-library. It provides at type `ctRegex` type which uses
+library. It provides the `ctRegex` type which uses
 *string mixins* and CTFE to generate a highly optimized
 regular expression automaton that is generated during
 compilation. The same code base is re-used for
-the run-time version `regex` that allows to compile
-regular expressions only available at run-time.
+the run-time version `regex` that allows regular
+expressions only available at run-time to be compiled.
 
     auto ctr = ctRegex!(`^.*/([^/]+)/?$`);
     auto tr = regex(`^.*/([^/]+)/?$`);
@@ -58,13 +58,13 @@ using Newton's approximation scheme.
 
 Params:
     x = number to be squared
-    
-Returns: square root of x 
+
+Returns: square root of x
 */
 auto sqrt(T)(T x) {
     // our epsilon when to stop the
-    // approximation because we think the change
-    // isn't worth another iteration.
+    // approximation because we think the 
+    // change isn't worth another iteration.
     enum GoodEnough = 0.01;
     import std.math : abs;
     // choose a good starting value.

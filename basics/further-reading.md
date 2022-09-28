@@ -1,11 +1,11 @@
-# Further Reading
+# Further Reading 深入阅读
 
-Now that you've finished the basics, you can move on to some more advanced sections of this tour. Or, you can check out some of the following resources:
+现在您已经完成了基础部分，您可以选择继续探索更高级的章节。或者查看一下的一些资料（英文）：
 
 ### Basic resources
 
 * New to programming? [This book](http://ddili.org/ders/d.en/index.html) is a great starting place for beginners
-* [Coming form another language?](http://wiki.dlang.org/Coming_From)
+* [Coming from another language?](http://wiki.dlang.org/Coming_From)
 * Looking for a book to read? [Discover books about D](https://wiki.dlang.org/Books)
 * Read [articles about D](http://dlang.org/articles.html)
 * Explore more [D Tutorials](https://wiki.dlang.org/Tutorials)

@@ -1,13 +1,10 @@
-# Exceptions
+# Exceptions 异常
 
-This guide is only about User-`Exceptions` - System-`Errors` are usually fatal
-and should __never__ be caught.
+这里只针对用户异常 `Exceptions`，系统异常 `Errors` 通常是致命错误，__不应该__ 被捕获。
 
-### Catching Exceptions
+### 捕获异常
 
-A common case for exceptions is to validate potentially invalid user input.
-Once an exception is thrown, the stack will be unwound until the first matching exception
-handler is found.
+异常的一个常见情况是验证可能无效的用户输入。一旦抛出异常，堆栈将被展开直到匹配到一个异常处理。
 
 ```d
 try
@@ -20,8 +17,7 @@ catch (FileException e)
 }
 ```
 
-It's possible to have multiple `catch` blocks and a `finally` block that is executed
-regardless of whether an error occurred. Exceptions are thrown with `throw`.
+可以有多个 `catch` 捕获块和一个 无论是否发生异常都会执行的 `finally` 语句。异常被 `throw` 关键字抛出。
 
 ```d
 try
@@ -42,12 +38,11 @@ finally
 }
 ```
 
-Remember that the [scope guard](gems/scope-guards) is usually a better solution to the `try-finally`
-pattern.
+记住， [scope guard 作用域保护](gems/scope-guards) 通常是比 `try-finally` 更好的方案。
 
-### Custom exceptions
+### 自定义异常
 
-One can easily inherit from `Exception` and create custom exceptions:
+可以很容易地继承 `Exception` 创建自定义异常。
 
 ```d
 class UserNotFoundException : Exception
@@ -59,44 +54,36 @@ class UserNotFoundException : Exception
 throw new UserNotFoundException("D-Man is on vacation");
 ```
 
-### Enter a safe world with `nothrow`
+### 使用 `nothrow` 进入安全世界
 
-The D compiler can ensure that a function can't cause catastrophic side-effects.
-Such functions can be annotated with the `nothrow` keyword. The D compiler
-statically forbids throwing exceptions in `nothrow` functions.
+D 编译器可以确认哪些函数不会导致灾难性的副作用。这些函数可以被 `nothrow` 关键字注释，D 编译器将在静态检查中禁止在 `nothrow` 中抛出异常。
 
 ```d
 bool lessThan(int a, int b) nothrow
 {
-    writeln("unsafe world"); // output can throw exceptions, thus this is forbidden
+    writeln("unsafe world"); // 输出是可以抛出异常的，所以这里不能用 nothrow
     return a < b;
 }
 ```
 
-Please note that the compiler is able to infer attributes for templated code
-automatically.
+请注意，编译器可以自动判断判断模板代码的属性。
 
 ### std.exception
 
-It is important to avoid contract programming for user-input as the contracts
-are removed when compiled in release mode. For convenience
-[`std.exception`](https://dlang.org/phobos/std_exception.html) provides
-[`enforce`](https://dlang.org/phobos/std_exception.html#enforce)
-that can be used like `assert`, but throws `Exception`s
-instead of an `AssertError`.
+避免 `assert 断言` 是重要的，即将引入用户控制的 [contract programming](gems/contract-programming) 与 `assert` 一样会在 release 发布模式下删除。
+[`std.exception`](https://dlang.org/phobos/std_exception.html) 提供了便捷的 
+[`enforce`](https://dlang.org/phobos/std_exception.html#enforce)，可以像 `assert` 一样使用，但是抛出 `Exception` 而不是一个 `AssertError`。
 
 ```d
 import std.exception : enforce;
 float magic = 1_000_000_000;
 enforce(magic + 42 - magic == 42, "Floating-point math is fun");
 
-// throw custom exceptions
+// 抛出一个自定义的异常
 enforce!StringException('a' != 'A', "Case-sensitive algorithm");
 ```
 
-However there's more in `std.exception`. For example when the error might not be
-fatal, one can opt-in to
-[collect](https://dlang.org/phobos/std_exception.html#collectException) it:
+在 `std.exception` 中还有很多功能，比如当异常可能不是致命的时候，可以选择使用 [collect](https://dlang.org/phobos/std_exception.html#collectException)：
 
 ```d
 import std.exception : collectException;
@@ -105,9 +92,9 @@ if (e)
     writeln("The dangerous operation failed with ", e);
 ```
 
-To test whether an exception is thrown in tests, use [`assertThrown`](https://dlang.org/phobos/std_exception.html#assertThrown).
+要测试是否抛出异常，请使用 [`assertThrown`](https://dlang.org/phobos/std_exception.html#assertThrown)。
 
-### In-depth
+### 深入了解
 
 - [Exception Safety in D](https://dlang.org/exception-safe.html)
 - [std.exception](https://dlang.org/phobos/std_exception.html)
@@ -128,13 +115,13 @@ void main()
     }
     catch (FileException e)
     {
-		writeln("Message:\n", e.msg);
-		writeln("File: ", e.file);
-		writeln("Line: ", e.line);
-		writeln("Stack trace:\n", e.info);
+        writeln("Message:\n", e.msg);
+        writeln("File: ", e.file);
+        writeln("Line: ", e.line);
+        writeln("Stack trace:\n", e.info);
 
-		// Default formatting could be used too
-		// writeln(e);
+        // 也可以使用默认的格式化
+        // writeln(e);
     }
 }
 ```

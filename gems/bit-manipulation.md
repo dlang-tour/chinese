@@ -1,6 +1,6 @@
 # Bit manipulation
 
-An excellent example of D's ability to generate code on compile-time with mixins,
+An excellent example of D's ability to generate code at compile-time with mixins,
 is bit manipulation.
 
 ### Simple bit manipulation
@@ -17,8 +17,8 @@ D offers the following operators for bit manipulation:
 ### A practical example
 
 A common example for bit manipulation is to read the value of a bit.
-D provides `core.bitop.bt` for most common tasks, however to get used to bit
-manipulation, let's start with a verbose implementation of testing a bit:
+D provides `core.bitop.bt` for most common tasks. However to get used to bit
+manipulation, let's start with some verbose code to test a bit:
 
 ```d
 enum posA = 1;
@@ -55,23 +55,23 @@ void setFieldA(bool b);
 
 ## `std.bitmanip` to the rescue
 
-It's a lot of fun to write ones' custom bit manipulation code and
-D provides the full toolbox to do so. However in most cases one doesn't want to
-copy&paste such bit manipulation code as this is very error-prone and hard to maintain.
+It's a lot of fun to write custom bit manipulation code and
+D provides all the tools needed to do so. However, in most cases you don't want to
+copy and paste code like this, especially since it is very error-prone and hard to maintain.
 Hence in D `std.bitmanip` helps you to write maintainable, easy-to-read bit manipulations
 with `std.bitmanip` and the power of mixins - without sacrificing performance.
 
 Have a look at the exercise section. A `BitVector` is defined, but it still uses
 just X bits and is nearly indistinguishable from a regular struct.
 
-`std.bitmanip` and `core.bitop` contain more helpers that are greatly helpful
-for applications that require low-memory consumption.
+`std.bitmanip` and `core.bitop` contain more helpers that are very helpful
+for applications that require low-memory usage.
 
 ### Padding and alignment
 
-As the compiler will add padding for variables with a size lower than the current
+Since the compiler adds padding to variables whose size is less than the current
 OS memory layout (`size_t.sizeof`) e.g. `bool`, `byte`, `char`, it is recommended
-to start with fields of high alignments.
+that you start with fields with high alignments.
 
 ## In-depth
 
@@ -110,14 +110,14 @@ void main()
     // 4 bytes (int) per variable
     writeln(Vector.sizeof);
 
-	struct BadVector
-	{
-		bool a;
-		int x, y, z;
-		bool b;
-	}
-	// due to padding,
-	// 4 bytes are used for each field
-	writeln(BadVector.sizeof);
+    struct BadVector
+    {
+        bool a;
+        int x, y, z;
+        bool b;
+    }
+    // due to padding,
+    // 4 bytes are used for each field
+    writeln(BadVector.sizeof);
 }
 ```

@@ -5,17 +5,17 @@ first-class support for development
 in a functional style.
 
 In D a function can be declared as `pure` which implies
-that given the same input parameters, always the **same**
-output is generated. `pure` functions cannot access or change
+that given the same input parameters, the **same** output
+is always generated. `pure` functions cannot access or change
 any mutable global state and are thus just allowed to call other
 functions which are `pure` themselves.
 
     int add(int lhs, int rhs) pure {
-        // ERROR: impureFunction();
+        impureFunction(); // ERROR: unable to call impureFunction here
         return lhs + rhs;
     }
 
-This variant of `add` is called **strongly pure function**
+This variant of `add` is called a **strongly pure function**
 because it returns a result dependent only on its input
 parameters without modifying them. D also allows the
 definition of **weakly pure functions** which might
@@ -69,24 +69,27 @@ BigInt bigPow(uint base, uint power) pure
 
 void main()
 {
-    import std.datetime : benchmark, to;
-    import std.functional : memoize;
+    import std.datetime.stopwatch : benchmark;
+    import std.functional : memoize,
+        reverseArgs;
     import std.stdio : writefln, writeln;
 
-    // memoize caches the result of the function
-    // call depending on the input parameters.
+    // memoize caches the result of 
+    // the function call depending
+    // on the input parameters.
     // pure functions are great for that!
     alias fastBigPow = memoize!(bigPow);
 
     void test()
     {
         writefln(".uintLength() = %s ",
-        	   fastBigPow(5, 10000).uintLength);
+            fastBigPow(5, 10000).uintLength);
     }
 
-    foreach (i; 0 .. 10)
-        benchmark!test(1)[0]
-        	.to!("msecs", double)
-        	.writeln("took: miliseconds");
+    foreach (_; 0 .. 10)
+        ( benchmark!test(1)[0]
+            .total!"usecs"/1000.0 )
+            .reverseArgs!writefln
+                (" took: %.2f miliseconds");
 }
 ```
