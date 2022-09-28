@@ -1,6 +1,6 @@
-# Further Reading
+# Further Reading 深入阅读
 
-Now that you've finished the basics, you can move on to some more advanced sections of this tour. Or, you can check out some of the following resources:
+现在您已经完成了基础部分，您可以选择继续探索更高级的章节。或者查看一下的一些资料（英文）：
 
 ### Basic resources
 
